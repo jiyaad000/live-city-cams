@@ -8,51 +8,175 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: #0f172a;
+      background-color: #0b0f19;
       color: #f8fafc;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       padding: 20px;
     }
-    header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    h1 { font-size: 1.8rem; margin-bottom: 6px; }
-    p { color: #94a3b8; font-size: 0.95rem; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
+    
+    /* Top Header Bar */
+    .top-bar {
       max-width: 1400px;
-      margin: 0 auto;
-    }
-    .card {
-      background: #1e293b;
+      width: 100%;
+      margin: 0 auto 24px auto;
+      background: #131b2e;
+      border: 1px solid #1e293b;
       border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #334155;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
     }
-    .card-title {
-      padding: 12px 16px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      background: #059669;
+      color: #fff;
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-text h1 {
+      font-size: 1.15rem;
       font-weight: 600;
-      font-size: 1rem;
-      background: #1e293b;
-      border-bottom: 1px solid #334155;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .live-dot {
+    .live-badge {
+      background: #dc2626;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .brand-text p {
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+    
+    /* Controls & Buttons */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .layout-btns {
+      display: flex;
+      background: #0b0f19;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .layout-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .layout-btn.active, .layout-btn:hover {
+      background: #1e293b;
+      color: #fff;
+    }
+    .action-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .action-btn:hover {
+      background: #334155;
+    }
+
+    /* Grid Layouts */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .grid.cols-1 { grid-template-columns: 1fr; }
+    .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: 1fr !important; }
+    }
+
+    /* Camera Cards */
+    .card {
+      background: #131b2e;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+    }
+    .card-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .status-dot {
       width: 8px;
       height: 8px;
-      background-color: #ef4444;
+      background-color: #10b981;
       border-radius: 50%;
-      display: inline-block;
     }
+    .cam-tag {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    
+    /* Video Wrapper */
     .wrap {
       position: relative;
       width: 100%;
-      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      padding-top: 56.25%; /* 16:9 */
       background: #000;
     }
     .wrap iframe {
@@ -63,63 +187,170 @@
       height: 100%;
       border: 0;
     }
+
+    /* Card Footer Location info */
+    .card-footer {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #131b2e;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      border-top: 1px solid #1e293b;
+    }
+    .card-footer a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    .card-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      max-width: 1400px;
+      width: 100%;
+      margin: 30px auto 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #64748b;
+      font-size: 0.8rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>🎥 Fuvahmulah City Council Live Feeds</h1>
-    <p>Secretariat of the Fuvahmulah City Council Public Monitoring Streams</p>
+  <!-- Top Navigation Header -->
+  <header class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>Fuvahmulah City Cams <span class="live-badge">LIVE</span></h1>
+        <p>Secretariat of the Fuvahmulah City Council Public Monitoring Streams</p>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <div class="layout-btns">
+        <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
+        </button>
+        <button class="layout-btn" onclick="setLayout(2)" title="2 Columns">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h5v16H2a2 2 0 0 1-2-2V2zm7 0h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7V2z"/></svg>
+        </button>
+        <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
+        </button>
+      </div>
+      <button class="action-btn" onclick="location.reload()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        Refresh All
+      </button>
+    </div>
   </header>
 
-  <div class="grid">
+  <!-- Camera Grid -->
+  <main class="grid" id="camGrid">
     
-    <!-- Cam 1: Genmiskih Fannu -->
+    <!-- Cam 1 -->
     <div class="card">
-      <div class="card-title"><span class="live-dot"></span> Genmiskih Fannu Live</div>
+      <div class="card-header">
+        <div class="card-title-wrap">
+          <span class="status-dot"></span>
+          <span>Genmiskih Fannu</span>
+        </div>
+        <span class="cam-tag">Cam 01</span>
+      </div>
       <div class="wrap">
         <iframe
-          src="https://www.youtube-nocookie.com/embed/HMmVUTWDN3s?autoplay=1&mute=1&controls=1&enablejsapi=1"
+          src="https://www.youtube-nocookie.com/embed/HMmVUTWDN3s?autoplay=1&mute=1&controls=0&modestbranding=1&enablejsapi=1"
           title="Genmiskih Fannu Live"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
       </div>
+      <div class="card-footer">
+        <span>📍 Fuvahmulah Beach</span>
+        <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
+      </div>
     </div>
 
-    <!-- Cam 2: Genmiskih Magu -->
+    <!-- Cam 2 -->
     <div class="card">
-      <div class="card-title"><span class="live-dot"></span> Genmiskih Magu Live</div>
+      <div class="card-header">
+        <div class="card-title-wrap">
+          <span class="status-dot"></span>
+          <span>Genmiskih Magu</span>
+        </div>
+        <span class="cam-tag">Cam 02</span>
+      </div>
       <div class="wrap">
         <iframe
-          src="https://www.youtube-nocookie.com/embed/dJ3lcom_xk8?autoplay=1&mute=1&controls=1&enablejsapi=1"
+          src="https://www.youtube-nocookie.com/embed/dJ3lcom_xk8?autoplay=1&mute=1&controls=0&modestbranding=1&enablejsapi=1"
           title="Genmiskih Magu Live"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
       </div>
+      <div class="card-footer">
+        <span>📍 Main Road Junction</span>
+        <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
+      </div>
     </div>
 
-    <!-- Cam 3: Fish Market -->
+    <!-- Cam 3 -->
     <div class="card">
-      <div class="card-title"><span class="live-dot"></span> Fuvahmulah Fish Market Live</div>
+      <div class="card-header">
+        <div class="card-title-wrap">
+          <span class="status-dot"></span>
+          <span>Fuvahmulah Fish Market</span>
+        </div>
+        <span class="cam-tag">Cam 03</span>
+      </div>
       <div class="wrap">
         <iframe
-          src="https://www.youtube-nocookie.com/embed/GW5qgbT80oA?autoplay=1&mute=1&controls=1&enablejsapi=1"
+          src="https://www.youtube-nocookie.com/embed/GW5qgbT80oA?autoplay=1&mute=1&controls=0&modestbranding=1&enablejsapi=1"
           title="Fuvahmulah Fish Market Live"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
       </div>
+      <div class="card-footer">
+        <span>📍 Harbor Market Area</span>
+        <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
+      </div>
     </div>
 
-  </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <span>Official Streams Provided by Secretariat of the Fuvahmulah City Council</span>
+    <span>Hosted via GitHub Pages • Strict-Origin Security Active</span>
+  </footer>
 
   <script>
-    // Automatically injects your GitHub Pages domain origin to satisfy YouTube Error 153 checks
+    // Grid layout switcher
+    function setLayout(cols) {
+      const grid = document.getElementById('camGrid');
+      grid.className = 'grid cols-' + cols;
+      document.querySelectorAll('.layout-btn').forEach((btn, index) => {
+        btn.classList.toggle('active', index === (cols - 1));
+      });
+    }
+
+    // Automatically injects GitHub Pages domain origin to satisfy YouTube Error 153 checks
     document.querySelectorAll('iframe').forEach(iframe => {
       const currentSrc = iframe.getAttribute('src');
       const origin = window.location.origin;
