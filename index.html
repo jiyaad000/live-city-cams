@@ -194,7 +194,7 @@
       color: #fff;
     }
     
-    /* Video Wrapper & Clean Mask matching API structure */
+    /* Video Wrapper & Clean Mask */
     .wrap {
       position: relative;
       width: 100%;
@@ -297,9 +297,7 @@
           </button>
         </div>
       </div>
-      <div class="wrap">
-        <div id="player-1"></div>
-      </div>
+      <div class="wrap"><div id="player-1"></div></div>
       <div class="card-footer">
         <span>📍 Fuvahmulah Beach</span>
         <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
@@ -320,9 +318,7 @@
           </button>
         </div>
       </div>
-      <div class="wrap">
-        <div id="player-2"></div>
-      </div>
+      <div class="wrap"><div id="player-2"></div></div>
       <div class="card-footer">
         <span>📍 Main Road Junction</span>
         <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
@@ -343,9 +339,7 @@
           </button>
         </div>
       </div>
-      <div class="wrap">
-        <div id="player-3"></div>
-      </div>
+      <div class="wrap"><div id="player-3"></div></div>
       <div class="card-footer">
         <span>📍 Harbor Market Area</span>
         <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
@@ -360,7 +354,7 @@
     <span>Hosted via GitHub Pages • YouTube IFrame Player API Active</span>
   </footer>
 
-  <!-- Load Official YouTube IFrame Player API -->
+  <!-- Load YouTube IFrame Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     // Grid layout switcher
@@ -384,7 +378,7 @@
       }
     }
 
-    // Initialize all three players using the official API so parameters apply identically
+    // Initialize all three players dynamically via the official API
     function onYouTubeIframeAPIReady() {
       const origin = window.location.origin;
       const commonVars = {
