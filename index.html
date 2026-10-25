@@ -163,6 +163,11 @@
       background-color: #10b981;
       border-radius: 50%;
     }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .cam-tag {
       background: #1e293b;
       color: #94a3b8;
@@ -170,6 +175,23 @@
       padding: 2px 8px;
       border-radius: 4px;
       font-family: monospace;
+    }
+    .fs-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .fs-btn:hover {
+      background: #334155;
+      color: #fff;
     }
     
     /* Video Wrapper */
@@ -261,19 +283,24 @@
   <main class="grid" id="camGrid">
     
     <!-- Cam 1 -->
-    <div class="card">
+    <div class="card" id="card-1">
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot"></span>
           <span>Genmiskih Fannu</span>
         </div>
-        <span class="cam-tag">Cam 01</span>
+        <div class="header-right">
+          <span class="cam-tag">Cam 01</span>
+          <button class="fs-btn" onclick="toggleFullscreen('card-1')" title="Toggle Fullscreen">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+          </button>
+        </div>
       </div>
       <div class="wrap">
         <iframe
           src="https://www.youtube-nocookie.com/embed/HMmVUTWDN3s?autoplay=1&mute=1&controls=0&modestbranding=1&enablejsapi=1"
           title="Genmiskih Fannu Live"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
@@ -285,19 +312,24 @@
     </div>
 
     <!-- Cam 2 -->
-    <div class="card">
+    <div class="card" id="card-2">
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot"></span>
           <span>Genmiskih Magu</span>
         </div>
-        <span class="cam-tag">Cam 02</span>
+        <div class="header-right">
+          <span class="cam-tag">Cam 02</span>
+          <button class="fs-btn" onclick="toggleFullscreen('card-2')" title="Toggle Fullscreen">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+          </button>
+        </div>
       </div>
       <div class="wrap">
         <iframe
           src="https://www.youtube-nocookie.com/embed/dJ3lcom_xk8?autoplay=1&mute=1&controls=0&modestbranding=1&enablejsapi=1"
           title="Genmiskih Magu Live"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
@@ -309,19 +341,24 @@
     </div>
 
     <!-- Cam 3 -->
-    <div class="card">
+    <div class="card" id="card-3">
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot"></span>
           <span>Fuvahmulah Fish Market</span>
         </div>
-        <span class="cam-tag">Cam 03</span>
+        <div class="header-right">
+          <span class="cam-tag">Cam 03</span>
+          <button class="fs-btn" onclick="toggleFullscreen('card-3')" title="Toggle Fullscreen">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+          </button>
+        </div>
       </div>
       <div class="wrap">
         <iframe
           src="https://www.youtube-nocookie.com/embed/GW5qgbT80oA?autoplay=1&mute=1&controls=0&modestbranding=1&enablejsapi=1"
           title="Fuvahmulah Fish Market Live"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
@@ -348,6 +385,18 @@
       document.querySelectorAll('.layout-btn').forEach((btn, index) => {
         btn.classList.toggle('active', index === (cols - 1));
       });
+    }
+
+    // Card Fullscreen Toggle
+    function toggleFullscreen(cardId) {
+      const card = document.getElementById(cardId);
+      if (!document.fullscreenElement) {
+        card.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
     }
 
     // Automatically injects GitHub Pages domain origin to satisfy YouTube Error 153 checks
