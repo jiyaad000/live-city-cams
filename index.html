@@ -194,7 +194,7 @@
       color: #fff;
     }
     
-    /* Video Wrapper & Clean Header Mask */
+    /* Video Wrapper & Precision Cloak */
     .wrap {
       position: relative;
       width: 100%;
@@ -204,10 +204,10 @@
     }
     .wrap iframe {
       position: absolute;
-      top: -55px; /* Crops out the YouTube top title bar cleanly */
+      top: -50px;
       left: 0;
       width: 100%;
-      height: calc(100% + 55px);
+      height: calc(100% + 100px); /* Crops top title and stretches to eliminate bottom black bar */
       border: 0;
     }
 
