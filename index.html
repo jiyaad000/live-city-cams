@@ -194,7 +194,7 @@
       color: #fff;
     }
     
-    /* Video Wrapper & Clean Mask */
+    /* Video Wrapper & Clean Mask matching API structure */
     .wrap {
       position: relative;
       width: 100%;
@@ -298,13 +298,7 @@
         </div>
       </div>
       <div class="wrap">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/HMmVUTWDN3s?autoplay=1&mute=1&controls=1&modestbranding=1&playsinline=1&enablejsapi=1"
-          title="Genmiskih Fannu Live"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
+        <div id="player-1"></div>
       </div>
       <div class="card-footer">
         <span>📍 Fuvahmulah Beach</span>
@@ -327,13 +321,7 @@
         </div>
       </div>
       <div class="wrap">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/dJ3lcom_xk8?autoplay=1&mute=1&controls=1&modestbranding=1&playsinline=1&enablejsapi=1"
-          title="Genmiskih Magu Live"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
+        <div id="player-2"></div>
       </div>
       <div class="card-footer">
         <span>📍 Main Road Junction</span>
@@ -356,13 +344,7 @@
         </div>
       </div>
       <div class="wrap">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/GW5qgbT80oA?autoplay=1&mute=1&controls=1&modestbranding=1&playsinline=1&enablejsapi=1"
-          title="Fuvahmulah Fish Market Live"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
+        <div id="player-3"></div>
       </div>
       <div class="card-footer">
         <span>📍 Harbor Market Area</span>
@@ -375,9 +357,11 @@
   <!-- Footer -->
   <footer>
     <span>Official Streams Provided by Secretariat of the Fuvahmulah City Council</span>
-    <span>Hosted via GitHub Pages • Strict-Origin Security Active</span>
+    <span>Hosted via GitHub Pages • YouTube IFrame Player API Active</span>
   </footer>
 
+  <!-- Load Official YouTube IFrame Player API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     // Grid layout switcher
     function setLayout(cols) {
@@ -400,14 +384,41 @@
       }
     }
 
-    // Automatically injects GitHub Pages domain origin to satisfy YouTube Error 153 checks
-    document.querySelectorAll('iframe').forEach(iframe => {
-      const currentSrc = iframe.getAttribute('src');
+    // Initialize all three players using the official API so parameters apply identically
+    function onYouTubeIframeAPIReady() {
       const origin = window.location.origin;
-      if (origin && origin !== 'null' && !origin.startsWith('file://')) {
-        iframe.setAttribute('src', currentSrc + '&origin=' + encodeURIComponent(origin) + '&widget_referrer=' + encodeURIComponent(origin));
-      }
-    });
+      const commonVars = {
+        'autoplay': 1,
+        'mute': 1,
+        'controls': 1,
+        'modestbranding': 1,
+        'playsinline': 1,
+        'enablejsapi': 1,
+        'origin': origin,
+        'widget_referrer': origin
+      };
+
+      new YT.Player('player-1', {
+        height: '100%',
+        width: '100%',
+        videoId: 'HMmVUTWDN3s',
+        playerVars: commonVars
+      });
+
+      new YT.Player('player-2', {
+        height: '100%',
+        width: '100%',
+        videoId: 'dJ3lcom_xk8',
+        playerVars: commonVars
+      });
+
+      new YT.Player('player-3', {
+        height: '100%',
+        width: '100%',
+        videoId: 'GW5qgbT80oA',
+        playerVars: commonVars
+      });
+    }
   </script>
 
 </body>
