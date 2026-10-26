@@ -86,7 +86,7 @@
       flex-wrap: wrap;
     }
     
-    /* Pulsing Glowing LIVE Badge with proper spacing */
+    /* Pulsing Glowing LIVE Badge */
     .live-badge {
       background: rgba(220, 38, 38, 0.15);
       border: 1px solid rgba(220, 38, 38, 0.6);
@@ -209,7 +209,7 @@
     .card {
       background: var(--card-bg);
       border-radius: 12px;
-      overflow: hidden;
+      overflow: visible; /* Allows buttons positioned slightly outside the wrapper to remain visible */
       border: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
@@ -281,7 +281,7 @@
       color: var(--text-main);
     }
     
-    /* Video Wrapper & Non-Interactive Stream Style */
+    /* Video Wrapper */
     .wrap {
       position: relative;
       width: 100%;
@@ -299,10 +299,10 @@
       pointer-events: none;
     }
 
-    /* Play/Pause Button positioned cleanly inside the bottom black bar area */
+    /* Play/Pause Button moved down cleanly into the black bar */
     .stream-overlay-btn {
       position: absolute;
-      bottom: 8px;
+      bottom: -36px;
       left: 12px;
       background: var(--btn-bg);
       border: 1px solid var(--border-color);
@@ -325,9 +325,9 @@
       transform: scale(0.96);
     }
 
-    /* Card Footer Location info */
+    /* Card Footer Location info with extra top padding for the button */
     .card-footer {
-      padding: 10px 16px;
+      padding: 20px 16px 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
