@@ -45,7 +45,7 @@
     .top-bar {
       max-width: 1400px;
       width: 100%;
-      margin: 0 auto 24px auto;
+      margin: 0 auto 12px auto;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
@@ -130,28 +130,30 @@
       font-size: 0.8rem;
     }
     
-    /* Weather & Live Time Widget inside the Header */
-    .header-right-group {
+    /* Standalone Weather & Live Time Bar (Outside the header box, aligned right) */
+    .info-bar {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto 20px auto;
       display: flex;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
+      justify-content: flex-end;
     }
     .weather-badge {
-      background: var(--bg-color);
+      background: var(--card-bg);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      font-size: 0.82rem;
-      padding: 6px 12px;
-      border-radius: 6px;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: 8px;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
       font-family: system-ui, sans-serif;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .weather-divider {
       width: 1px;
-      height: 14px;
+      height: 16px;
       background: var(--border-color);
     }
     .weather-info, .time-info {
@@ -162,7 +164,7 @@
     .time-info {
       color: var(--text-muted);
       font-family: monospace;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
 
     /* Controls & Buttons */
@@ -439,41 +441,41 @@
       </div>
     </div>
     
-    <div class="header-right-group">
-      <!-- Weather & Live Time Widget -->
-      <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
-        <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
-        <div class="weather-divider"></div>
-        <div class="time-info" id="timeContent">⏰ --:--:--</div>
-      </div>
+    <div class="controls">
+      <!-- Dark/Light Theme Toggle -->
+      <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
+        <span id="themeIcon">☀️</span>
+      </button>
 
-      <div class="controls">
-        <!-- Dark/Light Theme Toggle -->
-        <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
-          <span id="themeIcon">☀️</span>
+      <!-- Layout Selector -->
+      <div class="layout-btns">
+        <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
         </button>
-
-        <!-- Layout Selector -->
-        <div class="layout-btns">
-          <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
-          </button>
-          <button class="layout-btn" onclick="setLayout(2)" title="2 Columns">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h5v16H2a2 2 0 0 1-2-2V2zm7 0h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7V2z"/></svg>
-          </button>
-          <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
-          </button>
-        </div>
-
-        <!-- Refresh Button -->
-        <button class="action-btn" onclick="location.reload()">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          Refresh All
+        <button class="layout-btn" onclick="setLayout(2)" title="2 Columns">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h5v16H2a2 2 0 0 1-2-2V2zm7 0h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7V2z"/></svg>
+        </button>
+        <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
         </button>
       </div>
+
+      <!-- Refresh Button -->
+      <button class="action-btn" onclick="location.reload()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        Refresh All
+      </button>
     </div>
   </header>
+
+  <!-- Standalone Weather & Live Time Bar (Placed exactly in the marked space outside the header box) -->
+  <div class="info-bar">
+    <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
+      <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
+      <div class="weather-divider"></div>
+      <div class="time-info" id="timeContent">⏰ --:--:--</div>
+    </div>
+  </div>
 
   <!-- Camera Grid -->
   <main class="grid" id="camGrid">
