@@ -282,7 +282,7 @@
       color: var(--text-main);
     }
     
-    /* Video Wrapper & Custom CSS Mask */
+    /* Video Wrapper & Non-Interactive Stream Style */
     .wrap {
       position: relative;
       width: 100%;
@@ -297,6 +297,7 @@
       width: 100%;
       height: calc(100% + 130px);
       border: 0;
+      pointer-events: none; /* Makes the YouTube player completely non-interactive, preventing any click overlays or controls */
     }
 
     /* Card Footer Location info */
@@ -434,7 +435,7 @@
       </div>
       <div class="wrap"><div id="player-1"></div></div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno ↗</a>
+        <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno</a>
         <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -458,7 +459,7 @@
       </div>
       <div class="wrap"><div id="player-2"></div></div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu ↗</a>
+        <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu</a>
         <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -482,7 +483,7 @@
       </div>
       <div class="wrap"><div id="player-3"></div></div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market ↗</a>
+        <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market</a>
         <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -492,7 +493,7 @@
   <!-- Footer -->
   <footer>
     <div class="footer-top">
-      <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council ↗</a> & Dhiraagu</span>
+      <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council</a> & Dhiraagu</span>
       <span>Hosted via GitHub Pages</span>
     </div>
     <div class="footer-bottom">
@@ -581,7 +582,7 @@
       const commonVars = {
         'autoplay': 1,
         'mute': 1,
-        'controls': 1,
+        'controls': 0,
         'modestbranding': 1,
         'playsinline': 1,
         'enablejsapi': 1,
