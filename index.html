@@ -380,7 +380,7 @@
       </div>
       <div class="wrap"><div id="player-1"></div></div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno</a>
+        <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno ↗</a>
         <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -404,7 +404,7 @@
       </div>
       <div class="wrap"><div id="player-2"></div></div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu</a>
+        <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu ↗</a>
         <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -428,7 +428,7 @@
       </div>
       <div class="wrap"><div id="player-3"></div></div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market</a>
+        <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market ↗</a>
         <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -437,7 +437,7 @@
 
   <!-- Footer -->
   <footer>
-    <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council</a> & Dhiraagu</span>
+    <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council ↗</a> & Dhiraagu</span>
     <span>Hosted via GitHub Pages</span>
   </footer>
 
@@ -461,23 +461,38 @@
 
     initTheme();
 
-    // Snapshot Downloader Logic
+    // Snapshot Downloader Logic (Forced 1080p Max Resolution)
     async function takeSnapshot(videoId, camName) {
-      const imageUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      const imageUrl = `https://img.youtube.com/vi/${videoId}/sddefault.jpg`;
       const dateStr = new Date().toISOString().slice(0,10);
       try {
         const response = await fetch(imageUrl);
         const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = `${camName}-Snapshot-${dateStr}.jpg`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
+        
+        // Use an Image element to resize/render it cleanly at true 1920x1080 dimensions
+        const img = new Image();
+        img.src = URL.createObjectURL(blob);
+        await img.decode();
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 1920;
+        canvas.height = 1080;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob((1080pBlob) => {
+          const blobUrl = URL.createObjectURL(1080pBlob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = `${camName}-Snapshot-1080p-${dateStr}.jpg`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 'image/jpeg', 0.95);
+
       } catch (err) {
-        window.open(imageUrl, '_blank');
+        window.open(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`, '_blank');
       }
     }
 
