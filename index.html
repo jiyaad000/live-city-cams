@@ -52,17 +52,43 @@
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
+    
+    /* Pulsing Glowing LIVE Badge */
     .live-badge {
-      background: #dc2626;
-      color: white;
-      font-size: 0.65rem;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.6);
+      color: #ef4444;
+      font-size: 0.7rem;
       font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulse-glow 2s infinite;
     }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ef4444;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 4px rgba(220, 38, 38, 0.4); }
+      50% { box-shadow: 0 0 12px rgba(220, 38, 38, 0.8); }
+      100% { box-shadow: 0 0 4px rgba(220, 38, 38, 0.4); }
+    }
+    @keyframes blink {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
     .brand-text p {
       color: #94a3b8;
       font-size: 0.8rem;
@@ -272,7 +298,10 @@
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
       </div>
       <div class="brand-text">
-        <h1>Fuvahmulah City Cams <span class="live-badge">LIVE</span></h1>
+        <h1>
+          Fuvahmulah City Cams 
+          <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+        </h1>
         <p>Real-Time Views Around Fuvahmulah</p>
       </div>
     </div>
