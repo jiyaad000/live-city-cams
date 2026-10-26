@@ -82,11 +82,11 @@
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 4px;
       flex-wrap: wrap;
     }
     
-    /* Pulsing Glowing LIVE Badge */
+    /* Pulsing Glowing LIVE Badge with spacing adjustment */
     .live-badge {
       background: rgba(220, 38, 38, 0.15);
       border: 1px solid rgba(220, 38, 38, 0.6);
@@ -99,6 +99,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      margin-left: 8px;
       animation: pulse-glow 2s infinite;
     }
     .live-dot {
@@ -288,7 +289,6 @@
       padding-top: 56.25%; /* 16:9 */
       background: #000;
       overflow: hidden;
-      cursor: pointer;
     }
     .wrap iframe {
       position: absolute;
@@ -300,15 +300,15 @@
       pointer-events: none;
     }
 
-    /* Floating Play/Pause Overlay Button on the Stream */
+    /* Moved Play/Pause Button Down into the Black Bar Area */
     .stream-overlay-btn {
       position: absolute;
-      bottom: 12px;
+      bottom: -32px;
       left: 12px;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 6px 12px;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 5px 10px;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 500;
@@ -317,11 +317,10 @@
       align-items: center;
       gap: 6px;
       z-index: 10;
-      backdrop-filter: blur(4px);
       transition: background 0.2s, transform 0.1s;
     }
     .stream-overlay-btn:hover {
-      background: rgba(30, 41, 59, 0.9);
+      background: var(--btn-hover);
     }
     .stream-overlay-btn:active {
       transform: scale(0.96);
@@ -329,7 +328,7 @@
 
     /* Card Footer Location info */
     .card-footer {
-      padding: 10px 16px;
+      padding: 16px 16px 10px 16px; /* Added extra top padding so footer clears the relocated button */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -460,9 +459,9 @@
           </button>
         </div>
       </div>
-      <div class="wrap" onclick="togglePlayPause(1)">
+      <div class="wrap">
         <div id="player-1"></div>
-        <button class="stream-overlay-btn" id="btn-play-1">
+        <button class="stream-overlay-btn" id="btn-play-1" onclick="togglePlayPause(1)">
           <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
         </button>
       </div>
@@ -489,9 +488,9 @@
           </button>
         </div>
       </div>
-      <div class="wrap" onclick="togglePlayPause(2)">
+      <div class="wrap">
         <div id="player-2"></div>
-        <button class="stream-overlay-btn" id="btn-play-2">
+        <button class="stream-overlay-btn" id="btn-play-2" onclick="togglePlayPause(2)">
           <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
         </button>
       </div>
@@ -518,9 +517,9 @@
           </button>
         </div>
       </div>
-      <div class="wrap" onclick="togglePlayPause(3)">
+      <div class="wrap">
         <div id="player-3"></div>
-        <button class="stream-overlay-btn" id="btn-play-3">
+        <button class="stream-overlay-btn" id="btn-play-3" onclick="togglePlayPause(3)">
           <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
         </button>
       </div>
@@ -628,7 +627,6 @@
       if (!player) return;
 
       const state = player.getPlayerState();
-      // YT.PlayerState.PLAYING is 1
       if (state === YT.PlayerState.PLAYING) {
         player.pauseVideo();
         btn.innerHTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play`;
