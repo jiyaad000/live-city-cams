@@ -295,14 +295,24 @@
       width: 100%;
       margin: 30px auto 0 auto;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 6px;
       color: var(--text-sub);
       font-size: 0.8rem;
       border-top: 1px solid var(--border-color);
       padding-top: 16px;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
       gap: 10px;
+    }
+    .footer-bottom {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      text-align: center;
     }
     .council-link {
       color: #38bdf8;
@@ -428,8 +438,13 @@
 
   <!-- Footer -->
   <footer>
-    <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council</a> & Dhiraagu</span>
-    <span>Hosted via GitHub Pages</span>
+    <div class="footer-top">
+      <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council</a> & Dhiraagu</span>
+      <span>Hosted via GitHub Pages</span>
+    </div>
+    <div class="footer-bottom">
+      Independent Community Dashboard • Not affiliated with or endorsed by Fuvahmulah City Council or Dhiraagu.
+    </div>
   </footer>
 
   <!-- Load YouTube IFrame Player API -->
