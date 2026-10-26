@@ -225,7 +225,6 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       border-color: #38bdf8;
     }
-    /* Dim other cards when one is in theater mode */
     .grid.has-theater .card:not(.theater-mode) {
       opacity: 0.3;
       pointer-events: none;
@@ -289,6 +288,7 @@
       padding-top: 56.25%; /* 16:9 */
       background: #000;
       overflow: hidden;
+      cursor: pointer;
     }
     .wrap iframe {
       position: absolute;
@@ -297,7 +297,34 @@
       width: 100%;
       height: calc(100% + 130px);
       border: 0;
-      pointer-events: none; /* Makes the YouTube player completely non-interactive, preventing any click overlays or controls */
+      pointer-events: none;
+    }
+
+    /* Floating Play/Pause Overlay Button on the Stream */
+    .stream-overlay-btn {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .stream-overlay-btn:hover {
+      background: rgba(30, 41, 59, 0.9);
+    }
+    .stream-overlay-btn:active {
+      transform: scale(0.96);
     }
 
     /* Card Footer Location info */
@@ -433,7 +460,12 @@
           </button>
         </div>
       </div>
-      <div class="wrap"><div id="player-1"></div></div>
+      <div class="wrap" onclick="togglePlayPause(1)">
+        <div id="player-1"></div>
+        <button class="stream-overlay-btn" id="btn-play-1">
+          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+        </button>
+      </div>
       <div class="card-footer">
         <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno</a>
         <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
@@ -457,7 +489,12 @@
           </button>
         </div>
       </div>
-      <div class="wrap"><div id="player-2"></div></div>
+      <div class="wrap" onclick="togglePlayPause(2)">
+        <div id="player-2"></div>
+        <button class="stream-overlay-btn" id="btn-play-2">
+          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+        </button>
+      </div>
       <div class="card-footer">
         <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu</a>
         <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
@@ -481,7 +518,12 @@
           </button>
         </div>
       </div>
-      <div class="wrap"><div id="player-3"></div></div>
+      <div class="wrap" onclick="togglePlayPause(3)">
+        <div id="player-3"></div>
+        <button class="stream-overlay-btn" id="btn-play-3">
+          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+        </button>
+      </div>
       <div class="card-footer">
         <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market</a>
         <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
@@ -576,6 +618,26 @@
       }
     }
 
+    // Store player references globally
+    let players = {};
+
+    // Play / Pause Toggle Logic
+    function togglePlayPause(index) {
+      const player = players[index];
+      const btn = document.getElementById(`btn-play-${index}`);
+      if (!player) return;
+
+      const state = player.getPlayerState();
+      // YT.PlayerState.PLAYING is 1
+      if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+        btn.innerHTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play`;
+      } else {
+        player.playVideo();
+        btn.innerHTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause`;
+      }
+    }
+
     // Initialize all three players dynamically via the official API
     function onYouTubeIframeAPIReady() {
       const origin = window.location.origin;
@@ -590,21 +652,21 @@
         'widget_referrer': origin
       };
 
-      new YT.Player('player-1', {
+      players[1] = new YT.Player('player-1', {
         height: '100%',
         width: '100%',
         videoId: 'HMmVUTWDN3s',
         playerVars: commonVars
       });
 
-      new YT.Player('player-2', {
+      players[2] = new YT.Player('player-2', {
         height: '100%',
         width: '100%',
         videoId: 'dJ3lcom_xk8',
         playerVars: commonVars
       });
 
-      new YT.Player('player-3', {
+      players[3] = new YT.Player('player-3', {
         height: '100%',
         width: '100%',
         videoId: 'GW5qgbT80oA',
