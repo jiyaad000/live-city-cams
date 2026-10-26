@@ -77,6 +77,11 @@
       align-items: center;
       justify-content: center;
     }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
     .brand-text h1 {
       font-size: 1.15rem;
       font-weight: 600;
@@ -125,23 +130,25 @@
       font-size: 0.8rem;
     }
     
-    /* Expanded & Enhanced Weather & Time Widget */
+    /* Weather & Live Time Widget positioned below titles */
     .weather-badge {
       background: var(--bg-color);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      font-size: 0.88rem;
-      padding: 8px 16px;
+      font-size: 0.85rem;
+      padding: 6px 14px;
       border-radius: 8px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 12px;
       font-family: system-ui, sans-serif;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+      width: fit-content;
+      margin-top: 2px;
     }
     .weather-divider {
       width: 1px;
-      height: 18px;
+      height: 16px;
       background: var(--border-color);
     }
     .weather-info, .time-info {
@@ -152,7 +159,7 @@
     .time-info {
       color: var(--text-muted);
       font-family: monospace;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     /* Controls & Buttons */
@@ -425,14 +432,14 @@
             <span class="live-badge"><span class="live-dot"></span>LIVE</span>
           </h1>
           <p>Real-Time Views Around Fuvahmulah</p>
+          
+          <!-- Weather & Live Time Widget moved below titles -->
+          <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
+            <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
+            <div class="weather-divider"></div>
+            <div class="time-info" id="timeContent">⏰ --:--:--</div>
+          </div>
         </div>
-      </div>
-
-      <!-- Enlarged Weather & Live Time Widget -->
-      <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
-        <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
-        <div class="weather-divider"></div>
-        <div class="time-info" id="timeContent">⏰ --:--:--</div>
       </div>
     </div>
     
