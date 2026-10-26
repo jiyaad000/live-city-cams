@@ -225,6 +225,7 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       border-color: #38bdf8;
     }
+    /* Dim other cards when one is in theater mode */
     .grid.has-theater .card:not(.theater-mode) {
       opacity: 0.3;
       pointer-events: none;
@@ -281,23 +282,21 @@
       color: var(--text-main);
     }
     
-    /* Clean Scaled Mask Wrapper (Hides YouTube overlays & fullscreen button seamlessly) */
+    /* Video Wrapper & Clean Mask */
     .wrap {
       position: relative;
       width: 100%;
-      padding-top: 56.25%; /* 16:9 aspect ratio */
+      padding-top: 56.25%; /* 16:9 */
       background: #000;
       overflow: hidden;
     }
     .wrap iframe {
       position: absolute;
-      top: 0;
+      top: -70px;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: calc(100% + 130px);
       border: 0;
-      transform: scale(1.04); /* Slightly zooms to cut off native borders/fullscreen button cleanly */
-      transform-origin: center;
     }
 
     /* Card Footer Location info */
@@ -559,6 +558,7 @@
       card.classList.toggle('theater-mode');
       grid.classList.toggle('has-theater', card.classList.contains('theater-mode'));
 
+      // Smooth scroll into view when entering theater mode
       if (card.classList.contains('theater-mode')) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
