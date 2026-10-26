@@ -82,11 +82,11 @@
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 12px;
       flex-wrap: wrap;
     }
     
-    /* Pulsing Glowing LIVE Badge with spacing adjustment */
+    /* Pulsing Glowing LIVE Badge with proper spacing */
     .live-badge {
       background: rgba(220, 38, 38, 0.15);
       border: 1px solid rgba(220, 38, 38, 0.6);
@@ -99,7 +99,6 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-left: 8px;
       animation: pulse-glow 2s infinite;
     }
     .live-dot {
@@ -300,10 +299,10 @@
       pointer-events: none;
     }
 
-    /* Moved Play/Pause Button Down into the Black Bar Area */
+    /* Play/Pause Button positioned cleanly inside the bottom black bar area */
     .stream-overlay-btn {
       position: absolute;
-      bottom: -32px;
+      bottom: 8px;
       left: 12px;
       background: var(--btn-bg);
       border: 1px solid var(--border-color);
@@ -328,7 +327,7 @@
 
     /* Card Footer Location info */
     .card-footer {
-      padding: 16px 16px 10px 16px; /* Added extra top padding so footer clears the relocated button */
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -399,7 +398,7 @@
         </div>
         <div class="brand-text">
           <h1>
-            Fuvahmulah City Cams 
+            <span>Fuvahmulah City Cams</span>
             <span class="live-badge"><span class="live-dot"></span>LIVE</span>
           </h1>
           <p>Real-Time Views Around Fuvahmulah</p>
