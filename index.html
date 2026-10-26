@@ -1,21 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <title>Fuvahmulah City Cams</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <style>
+    /* CSS Variables for Theme Switching */
+    :root[data-theme="dark"] {
+      --bg-color: #0b0f19;
+      --card-bg: #131b2e;
+      --border-color: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #64748b;
+      --btn-bg: #1e293b;
+      --btn-hover: #334155;
+    }
+    :root[data-theme="light"] {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-sub: #64748b;
+      --btn-bg: #e2e8f0;
+      --btn-hover: #cbd5e1;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: #0b0f19;
-      color: #f8fafc;
+      background-color: var(--bg-color);
+      color: var(--text-main);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
     }
     
     /* Top Header Bar */
@@ -23,8 +46,8 @@
       max-width: 1400px;
       width: 100%;
       margin: 0 auto 24px auto;
-      background: #131b2e;
-      border: 1px solid #1e293b;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 14px 20px;
       display: flex;
@@ -32,6 +55,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 15px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .brand {
       display: flex;
@@ -90,7 +114,7 @@
     }
 
     .brand-text p {
-      color: #94a3b8;
+      color: var(--text-muted);
       font-size: 0.8rem;
     }
     
@@ -102,8 +126,8 @@
     }
     .layout-btns {
       display: flex;
-      background: #0b0f19;
-      border: 1px solid #1e293b;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
       border-radius: 6px;
       padding: 3px;
       gap: 3px;
@@ -111,7 +135,7 @@
     .layout-btn {
       background: transparent;
       border: none;
-      color: #94a3b8;
+      color: var(--text-muted);
       width: 28px;
       height: 28px;
       border-radius: 4px;
@@ -122,13 +146,13 @@
       transition: all 0.2s;
     }
     .layout-btn.active, .layout-btn:hover {
-      background: #1e293b;
-      color: #fff;
+      background: var(--btn-bg);
+      color: var(--text-main);
     }
     .action-btn {
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #f8fafc;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
       padding: 6px 12px;
       border-radius: 6px;
       font-size: 0.85rem;
@@ -140,7 +164,7 @@
       transition: background 0.2s;
     }
     .action-btn:hover {
-      background: #334155;
+      background: var(--btn-hover);
     }
 
     /* Grid Layouts */
@@ -162,19 +186,20 @@
 
     /* Camera Cards */
     .card {
-      background: #131b2e;
+      background: var(--card-bg);
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid #1e293b;
+      border: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
+      transition: background 0.3s, border-color 0.3s;
     }
     .card-header {
       padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #1e293b;
+      border-bottom: 1px solid var(--border-color);
     }
     .card-title-wrap {
       display: flex;
@@ -192,22 +217,22 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .cam-tag {
-      background: #1e293b;
-      color: #94a3b8;
+      background: var(--btn-bg);
+      color: var(--text-muted);
       font-size: 0.75rem;
       padding: 2px 8px;
       border-radius: 4px;
       font-family: monospace;
     }
-    .fs-btn {
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #94a3b8;
-      width: 26px;
-      height: 26px;
+    .icon-btn {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
       border-radius: 4px;
       cursor: pointer;
       display: flex;
@@ -215,9 +240,9 @@
       justify-content: center;
       transition: all 0.2s;
     }
-    .fs-btn:hover {
-      background: #334155;
-      color: #fff;
+    .icon-btn:hover {
+      background: var(--btn-hover);
+      color: var(--text-main);
     }
     
     /* Video Wrapper & Clean Mask */
@@ -243,10 +268,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #131b2e;
+      background: var(--card-bg);
       font-size: 0.8rem;
-      color: #94a3b8;
-      border-top: 1px solid #1e293b;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
     }
     .card-footer a {
       color: #38bdf8;
@@ -256,7 +281,7 @@
       text-decoration: underline;
     }
     .map-link {
-      color: #94a3b8 !important;
+      color: var(--text-muted) !important;
       transition: color 0.2s;
     }
     .map-link:hover {
@@ -272,9 +297,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: #64748b;
+      color: var(--text-sub);
       font-size: 0.8rem;
-      border-top: 1px solid #1e293b;
+      border-top: 1px solid var(--border-color);
       padding-top: 16px;
       flex-wrap: wrap;
       gap: 10px;
@@ -307,6 +332,12 @@
     </div>
     
     <div class="controls">
+      <!-- Dark/Light Theme Toggle -->
+      <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
+        <span id="themeIcon">☀️</span>
+      </button>
+
+      <!-- Layout Selector -->
       <div class="layout-btns">
         <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
@@ -318,6 +349,8 @@
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
         </button>
       </div>
+
+      <!-- Refresh Button -->
       <button class="action-btn" onclick="location.reload()">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         Refresh All
@@ -337,7 +370,10 @@
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 01</span>
-          <button class="fs-btn" onclick="toggleFullscreen('card-1')" title="Toggle Fullscreen">
+          <button class="icon-btn" onclick="takeSnapshot('HMmVUTWDN3s', 'Genmiskih-Fannu')" title="Take Snapshot">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+          <button class="icon-btn" onclick="toggleFullscreen('card-1')" title="Toggle Fullscreen">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
           </button>
         </div>
@@ -358,7 +394,10 @@
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 02</span>
-          <button class="fs-btn" onclick="toggleFullscreen('card-2')" title="Toggle Fullscreen">
+          <button class="icon-btn" onclick="takeSnapshot('dJ3lcom_xk8', 'Genmiskih-Magu')" title="Take Snapshot">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+          <button class="icon-btn" onclick="toggleFullscreen('card-2')" title="Toggle Fullscreen">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
           </button>
         </div>
@@ -379,7 +418,10 @@
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 03</span>
-          <button class="fs-btn" onclick="toggleFullscreen('card-3')" title="Toggle Fullscreen">
+          <button class="icon-btn" onclick="takeSnapshot('GW5qgbT80oA', 'Fuvahmulah-Fish-Market')" title="Take Snapshot">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+          <button class="icon-btn" onclick="toggleFullscreen('card-3')" title="Toggle Fullscreen">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
           </button>
         </div>
@@ -402,7 +444,44 @@
   <!-- Load YouTube IFrame Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    // Grid layout switcher
+    // Theme Switcher Logic
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    initTheme();
+
+    // Snapshot Downloader Logic
+    async function takeSnapshot(videoId, camName) {
+      const imageUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      const dateStr = new Date().toISOString().slice(0,10);
+      try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `${camName}-Snapshot-${dateStr}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+      } catch (err) {
+        window.open(imageUrl, '_blank');
+      }
+    }
+
+    // Grid Layout Switcher
     function setLayout(cols) {
       const grid = document.getElementById('camGrid');
       grid.className = 'grid cols-' + cols;
