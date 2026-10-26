@@ -45,7 +45,7 @@
     .top-bar {
       max-width: 1400px;
       width: 100%;
-      margin: 0 auto 24px auto;
+      margin: 0 auto 16px auto;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
@@ -80,7 +80,7 @@
     .brand-text {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 3px;
     }
     .brand-text h1 {
       font-size: 1.15rem;
@@ -130,21 +130,26 @@
       font-size: 0.8rem;
     }
     
-    /* Weather & Live Time Widget positioned below titles */
+    /* Standalone Weather & Live Time Bar */
+    .info-bar {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto 20px auto;
+      display: flex;
+      justify-content: flex-end;
+    }
     .weather-badge {
-      background: var(--bg-color);
+      background: var(--card-bg);
       border: 1px solid var(--border-color);
       color: var(--text-main);
       font-size: 0.85rem;
-      padding: 6px 14px;
+      padding: 8px 16px;
       border-radius: 8px;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       font-family: system-ui, sans-serif;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-      width: fit-content;
-      margin-top: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .weather-divider {
       width: 1px;
@@ -159,7 +164,7 @@
     .time-info {
       color: var(--text-muted);
       font-family: monospace;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
     }
 
     /* Controls & Buttons */
@@ -432,13 +437,6 @@
             <span class="live-badge"><span class="live-dot"></span>LIVE</span>
           </h1>
           <p>Real-Time Views Around Fuvahmulah</p>
-          
-          <!-- Weather & Live Time Widget moved below titles -->
-          <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
-            <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
-            <div class="weather-divider"></div>
-            <div class="time-info" id="timeContent">⏰ --:--:--</div>
-          </div>
         </div>
       </div>
     </div>
@@ -469,6 +467,15 @@
       </button>
     </div>
   </header>
+
+  <!-- Standalone Weather & Live Time Bar (Outside the header box) -->
+  <div class="info-bar">
+    <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
+      <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
+      <div class="weather-divider"></div>
+      <div class="time-info" id="timeContent">⏰ --:--:--</div>
+    </div>
+  </div>
 
   <!-- Camera Grid -->
   <main class="grid" id="camGrid">
