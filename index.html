@@ -57,6 +57,12 @@
       gap: 15px;
       transition: background 0.3s, border-color 0.3s;
     }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
     .brand {
       display: flex;
       align-items: center;
@@ -118,13 +124,7 @@
       font-size: 0.8rem;
     }
     
-    /* Controls & Buttons */
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    /* Weather Widget */
     .weather-badge {
       background: var(--bg-color);
       border: 1px solid var(--border-color);
@@ -136,6 +136,13 @@
       align-items: center;
       gap: 6px;
       font-family: monospace;
+    }
+
+    /* Controls & Buttons */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .layout-btns {
       display: flex;
@@ -341,25 +348,27 @@
 
   <!-- Top Navigation Header -->
   <header class="top-bar">
-    <div class="brand">
-      <div class="brand-icon">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+    <div class="brand-group">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>
+            Fuvahmulah City Cams 
+            <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+          </h1>
+          <p>Real-Time Views Around Fuvahmulah</p>
+        </div>
       </div>
-      <div class="brand-text">
-        <h1>
-          Fuvahmulah City Cams 
-          <span class="live-badge"><span class="live-dot"></span>LIVE</span>
-        </h1>
-        <p>Real-Time Views Around Fuvahmulah</p>
+
+      <!-- Live Weather Widget on Left Side -->
+      <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather">
+        🌤️ Loading...
       </div>
     </div>
     
     <div class="controls">
-      <!-- Live Weather Widget -->
-      <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather">
-        🌤️ Loading...
-      </div>
-
       <!-- Dark/Light Theme Toggle -->
       <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
         <span id="themeIcon">☀️</span>
@@ -493,7 +502,6 @@
         const temp = Math.round(data.current.temperature_2m);
         const code = data.current.weather_code;
         
-        // Simple condition mapping based on WMO weather codes
         let icon = '🌤️';
         if (code === 0) icon = '☀️';
         else if (code >= 1 && code <= 3) icon = '⛅';
