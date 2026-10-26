@@ -82,7 +82,7 @@
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 16px; /* Increased gap to push LIVE badge away from "Cams" */
+      gap: 16px;
       flex-wrap: wrap;
     }
     
@@ -99,7 +99,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-top: 2px; /* Slight vertical alignment adjustment */
+      margin-top: 2px;
       animation: pulse-glow 2s infinite;
     }
     .live-dot {
@@ -125,18 +125,34 @@
       font-size: 0.8rem;
     }
     
-    /* Weather Widget */
+    /* Expanded & Enhanced Weather & Time Widget */
     .weather-badge {
       background: var(--bg-color);
       border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      padding: 6px 12px;
-      border-radius: 6px;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: system-ui, sans-serif;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .weather-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border-color);
+    }
+    .weather-info, .time-info {
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+    .time-info {
+      color: var(--text-muted);
       font-family: monospace;
+      font-size: 0.85rem;
     }
 
     /* Controls & Buttons */
@@ -412,9 +428,11 @@
         </div>
       </div>
 
-      <!-- Live Weather Widget on Left Side -->
-      <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather">
-        🌤️ Loading...
+      <!-- Enlarged Weather & Live Time Widget -->
+      <div class="weather-badge" id="weatherWidget" title="Fuvahmulah Weather & Time">
+        <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
+        <div class="weather-divider"></div>
+        <div class="time-info" id="timeContent">⏰ --:--:--</div>
       </div>
     </div>
     
@@ -568,7 +586,16 @@
 
     initTheme();
 
-    // Fetch Live Weather from Open-Meteo
+    // Live Clock Ticker for Fuvahmulah (Maldives Time / Indian/Maldives timezone UTC+5)
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('en-US', { timeZone: 'Indian/Maldives', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+      document.getElementById('timeContent').textContent = `⏰ ${timeString}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Fetch Live Weather & Condition Words from Open-Meteo
     async function fetchWeather() {
       try {
         const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-0.3&longitude=73.42&current=temperature_2m,weather_code');
@@ -577,14 +604,18 @@
         const code = data.current.weather_code;
         
         let icon = '🌤️';
-        if (code === 0) icon = '☀️';
-        else if (code >= 1 && code <= 3) icon = '⛅';
-        else if (code >= 51 && code <= 67) icon = '🌧️';
-        else if (code >= 95) icon = '⚡';
+        let condition = 'Fair';
 
-        document.getElementById('weatherWidget').textContent = `${icon} ${temp}°C • Fuvahmulah`;
+        if (code === 0) { icon = '☀️'; condition = 'Sunny'; }
+        else if (code >= 1 && code <= 2) { icon = '⛅'; condition = 'Partly Cloudy'; }
+        else if (code === 3) { icon = '☁️'; condition = 'Cloudy'; }
+        else if (code >= 51 && code <= 67) { icon = '🌧️'; condition = 'Rain'; }
+        else if (code >= 71 && code <= 77) { icon = '❄️'; condition = 'Snow'; }
+        else if (code >= 95) { icon = '⚡'; condition = 'Thunderstorm'; }
+
+        document.getElementById('weatherContent').innerHTML = `${icon} <strong>${temp}°C</strong> • ${condition}`;
       } catch (err) {
-        document.getElementById('weatherWidget').textContent = '🌡️ Fuvahmulah';
+        document.getElementById('weatherContent').textContent = '🌡️ Fuvahmulah Weather';
       }
     }
     fetchWeather();
