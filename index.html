@@ -327,11 +327,22 @@
       pointer-events: none;
     }
 
-    /* Play/Pause Button hidden by default, fades in on hover over the wrap */
-    .stream-overlay-btn {
+    /* Stream Overlay Bar containing Play/Pause & Quality Controls */
+    .stream-overlay-bar {
       position: absolute;
       bottom: 12px;
       left: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .wrap:hover .stream-overlay-bar {
+      opacity: 1;
+    }
+    .stream-overlay-btn {
       background: rgba(15, 23, 42, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
@@ -343,19 +354,54 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      z-index: 10;
       backdrop-filter: blur(4px);
-      opacity: 0;
-      transition: opacity 0.25s ease, background 0.2s, transform 0.1s;
-    }
-    .wrap:hover .stream-overlay-btn {
-      opacity: 1;
+      transition: background 0.2s, transform 0.1s;
     }
     .stream-overlay-btn:hover {
       background: rgba(30, 41, 59, 0.95);
     }
     .stream-overlay-btn:active {
       transform: scale(0.96);
+    }
+
+    /* Quality Selector Dropdown Container */
+    .quality-dropdown {
+      position: relative;
+    }
+    .quality-menu {
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      margin-bottom: 6px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 4px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      flex-direction: column;
+      gap: 2px;
+      min-width: 80px;
+    }
+    .quality-dropdown.open .quality-menu {
+      display: flex;
+    }
+    .quality-option {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .quality-option:hover, .quality-option.active {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      font-weight: 600;
     }
 
     /* Card Footer Location info */
@@ -497,9 +543,27 @@
       </div>
       <div class="wrap" onclick="togglePlayPause(1)">
         <div id="player-1"></div>
-        <button class="stream-overlay-btn" id="btn-play-1" onclick="event.stopPropagation(); togglePlayPause(1);">
-          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
-        </button>
+        <div class="stream-overlay-bar">
+          <button class="stream-overlay-btn" id="btn-play-1" onclick="event.stopPropagation(); togglePlayPause(1);">
+            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+          </button>
+
+          <!-- Quality Selector -->
+          <div class="quality-dropdown" id="quality-dropdown-1" onclick="event.stopPropagation();">
+            <button class="stream-overlay-btn" onclick="toggleQualityMenu(1)">
+              ⚙️ <span id="quality-label-1">Auto</span>
+            </button>
+            <div class="quality-menu">
+              <button class="quality-option active" onclick="setCamQuality(1, 'auto', 'Auto')">Auto</button>
+              <button class="quality-option" onclick="setCamQuality(1, 'hd1080', '1080p')">1080p</button>
+              <button class="quality-option" onclick="setCamQuality(1, 'hd720', '720p')">720p</button>
+              <button class="quality-option" onclick="setCamQuality(1, 'large', '480p')">480p</button>
+              <button class="quality-option" onclick="setCamQuality(1, 'medium', '360p')">360p</button>
+              <button class="quality-option" onclick="setCamQuality(1, 'small', '240p')">240p</button>
+              <button class="quality-option" onclick="setCamQuality(1, 'tiny', '144p')">144p</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno</a>
@@ -526,9 +590,27 @@
       </div>
       <div class="wrap" onclick="togglePlayPause(2)">
         <div id="player-2"></div>
-        <button class="stream-overlay-btn" id="btn-play-2" onclick="event.stopPropagation(); togglePlayPause(2);">
-          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
-        </button>
+        <div class="stream-overlay-bar">
+          <button class="stream-overlay-btn" id="btn-play-2" onclick="event.stopPropagation(); togglePlayPause(2);">
+            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+          </button>
+
+          <!-- Quality Selector -->
+          <div class="quality-dropdown" id="quality-dropdown-2" onclick="event.stopPropagation();">
+            <button class="stream-overlay-btn" onclick="toggleQualityMenu(2)">
+              ⚙️ <span id="quality-label-2">Auto</span>
+            </button>
+            <div class="quality-menu">
+              <button class="quality-option active" onclick="setCamQuality(2, 'auto', 'Auto')">Auto</button>
+              <button class="quality-option" onclick="setCamQuality(2, 'hd1080', '1080p')">1080p</button>
+              <button class="quality-option" onclick="setCamQuality(2, 'hd720', '720p')">720p</button>
+              <button class="quality-option" onclick="setCamQuality(2, 'large', '480p')">480p</button>
+              <button class="quality-option" onclick="setCamQuality(2, 'medium', '360p')">360p</button>
+              <button class="quality-option" onclick="setCamQuality(2, 'small', '240p')">240p</button>
+              <button class="quality-option" onclick="setCamQuality(2, 'tiny', '144p')">144p</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu</a>
@@ -555,9 +637,27 @@
       </div>
       <div class="wrap" onclick="togglePlayPause(3)">
         <div id="player-3"></div>
-        <button class="stream-overlay-btn" id="btn-play-3" onclick="event.stopPropagation(); togglePlayPause(3);">
-          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
-        </button>
+        <div class="stream-overlay-bar">
+          <button class="stream-overlay-btn" id="btn-play-3" onclick="event.stopPropagation(); togglePlayPause(3);">
+            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+          </button>
+
+          <!-- Quality Selector -->
+          <div class="quality-dropdown" id="quality-dropdown-3" onclick="event.stopPropagation();">
+            <button class="stream-overlay-btn" onclick="toggleQualityMenu(3)">
+              ⚙️ <span id="quality-label-3">Auto</span>
+            </button>
+            <div class="quality-menu">
+              <button class="quality-option active" onclick="setCamQuality(3, 'auto', 'Auto')">Auto</button>
+              <button class="quality-option" onclick="setCamQuality(3, 'hd1080', '1080p')">1080p</button>
+              <button class="quality-option" onclick="setCamQuality(3, 'hd720', '720p')">720p</button>
+              <button class="quality-option" onclick="setCamQuality(3, 'large', '480p')">480p</button>
+              <button class="quality-option" onclick="setCamQuality(3, 'medium', '360p')">360p</button>
+              <button class="quality-option" onclick="setCamQuality(3, 'small', '240p')">240p</button>
+              <button class="quality-option" onclick="setCamQuality(3, 'tiny', '144p')">144p</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market</a>
@@ -684,6 +784,34 @@
         btn.innerHTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause`;
       }
     }
+
+    // Quality Menu Handlers
+    function toggleQualityMenu(index) {
+      const dropdown = document.getElementById(`quality-dropdown-${index}`);
+      document.querySelectorAll('.quality-dropdown').forEach(d => {
+        if (d !== dropdown) d.classList.remove('open');
+      });
+      dropdown.classList.toggle('open');
+    }
+
+    function setCamQuality(index, level, label) {
+      const player = players[index];
+      if (player && typeof player.setPlaybackQuality === 'function') {
+        player.setPlaybackQuality(level);
+      }
+      document.getElementById(`quality-label-${index}`).textContent = label;
+      
+      const dropdown = document.getElementById(`quality-dropdown-${index}`);
+      dropdown.querySelectorAll('.quality-option').forEach(opt => {
+        opt.classList.toggle('active', opt.textContent.trim() === label);
+      });
+      dropdown.classList.remove('open');
+    }
+
+    // Close quality dropdown when clicking outside
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.quality-dropdown').forEach(d => d.classList.remove('open'));
+    });
 
     // Initialize all three players dynamically via the official API
     function onYouTubeIframeAPIReady() {
