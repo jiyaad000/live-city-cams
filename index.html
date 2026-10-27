@@ -271,6 +271,22 @@
       font-weight: 500;
       font-size: 0.95rem;
     }
+    .card-title-wrap a {
+      color: var(--text-main);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .card-title-wrap a:hover {
+      color: #38bdf8;
+      text-decoration: underline;
+    }
+    .map-icon {
+      font-size: 0.8rem;
+    }
+
     .status-dot {
       width: 8px;
       height: 8px;
@@ -358,7 +374,7 @@
       transform: scale(0.96);
     }
 
-    /* Card Footer Location info */
+    /* Card Footer Description info */
     .card-footer {
       padding: 10px 16px;
       display: flex;
@@ -374,14 +390,6 @@
       text-decoration: none;
     }
     .card-footer a:hover {
-      text-decoration: underline;
-    }
-    .map-link {
-      color: var(--text-muted) !important;
-      transition: color 0.2s;
-    }
-    .map-link:hover {
-      color: #38bdf8 !important;
       text-decoration: underline;
     }
 
@@ -483,7 +491,10 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot"></span>
-          <span>Genmiskih Fannu</span>
+          <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" title="View on Google Maps">
+            <span>Genmiskih Fannu</span>
+            <span class="map-icon">📍</span>
+          </a>
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 01</span>
@@ -502,7 +513,7 @@
         </button>
       </div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" class="map-link">📍 Genmiskih Fanno</a>
+        <span>Genmiskih Fannu Area View</span>
         <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -512,7 +523,10 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot"></span>
-          <span>Genmiskih Magu</span>
+          <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" title="View on Google Maps">
+            <span>Genmiskih Magu</span>
+            <span class="map-icon">📍</span>
+          </a>
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 02</span>
@@ -531,7 +545,7 @@
         </button>
       </div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" class="map-link">📍 Genmiskih Magu</a>
+        <span>Genmiskih Magu Junction View</span>
         <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
       </div>
     </div>
@@ -541,7 +555,10 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot"></span>
-          <span>Fuvahmulah Fish Market</span>
+          <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" title="View on Google Maps">
+            <span>Fuvahmulah Fish Market</span>
+            <span class="map-icon">📍</span>
+          </a>
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 03</span>
@@ -560,7 +577,7 @@
         </button>
       </div>
       <div class="card-footer">
-        <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" class="map-link">📍 Fuvahmulah Fish Market</a>
+        <span>Fuvahmulah Fish Market Area</span>
         <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
       </div>
     </div>
