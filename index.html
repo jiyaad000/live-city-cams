@@ -339,17 +339,17 @@
       display: flex;
       background: var(--bg-color);
       border: 1px solid var(--border-color);
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 3px;
-      gap: 3px;
+      gap: 4px;
     }
     .layout-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      width: 28px;
-      height: 28px;
-      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -413,7 +413,7 @@
       transition: all 0.3s ease;
     }
 
-    /* Theater Mode State */
+    /* Focused View State */
     .card.theater-mode {
       grid-column: 1 / -1;
       max-width: 1000px;
@@ -481,7 +481,14 @@
     .header-right {
       display: flex;
       align-items: center;
+      gap: 8px;
+    }
+    .view-modes-group {
+      display: flex;
+      align-items: center;
       gap: 6px;
+      padding: 2px;
+      border-radius: 6px;
     }
     .cam-tag {
       background: var(--btn-bg);
@@ -495,9 +502,9 @@
       background: var(--btn-bg);
       border: 1px solid var(--border-color);
       color: var(--text-muted);
-      width: 28px;
-      height: 28px;
-      border-radius: 4px;
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -891,16 +898,16 @@
             <span id="themeIcon">☀️</span>
           </button>
 
-          <!-- Layout Selector -->
+          <!-- Redesigned Layout Selector Icons -->
           <div class="layout-btns">
-            <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
+            <button class="layout-btn" onclick="setLayout(1)" title="1 Column Layout">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/></svg>
             </button>
-            <button class="layout-btn" onclick="setLayout(2)" title="2 Columns">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h5v16H2a2 2 0 0 1-2-2V2zm7 0h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7V2z"/></svg>
+            <button class="layout-btn" onclick="setLayout(2)" title="2 Columns Layout">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="18" rx="1.5"/><rect x="13" y="3" width="8" height="18" rx="1.5"/></svg>
             </button>
-            <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
+            <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns Layout">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="18" rx="1"/><rect x="9" y="3" width="6" height="18" rx="1"/><rect x="16" y="3" width="6" height="18" rx="1"/></svg>
             </button>
           </div>
         </div>
@@ -929,12 +936,14 @@
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 01</span>
-          <button class="icon-btn" id="tour-step-theater" onclick="toggleTheater('card-1')" title="Toggle Theater Mode">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-          </button>
-          <button class="icon-btn" id="tour-step-fs" onclick="openCustomFullscreen(1)" title="Toggle Fullscreen">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-          </button>
+          <div class="view-modes-group" id="tour-step-viewmodes">
+            <button class="icon-btn" onclick="toggleTheater('card-1')" title="Toggle Focused View">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
+            </button>
+            <button class="icon-btn" onclick="openCustomFullscreen(1)" title="Toggle Fullscreen">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+            </button>
+          </div>
         </div>
       </div>
       <div class="wrap" onclick="togglePlayPause(1)">
@@ -965,12 +974,14 @@
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 02</span>
-          <button class="icon-btn" onclick="toggleTheater('card-2')" title="Toggle Theater Mode">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-          </button>
-          <button class="icon-btn" onclick="openCustomFullscreen(2)" title="Toggle Fullscreen">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-          </button>
+          <div class="view-modes-group">
+            <button class="icon-btn" onclick="toggleTheater('card-2')" title="Toggle Focused View">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
+            </button>
+            <button class="icon-btn" onclick="openCustomFullscreen(2)" title="Toggle Fullscreen">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+            </button>
+          </div>
         </div>
       </div>
       <div class="wrap" onclick="togglePlayPause(2)">
@@ -1001,12 +1012,14 @@
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 03</span>
-          <button class="icon-btn" onclick="toggleTheater('card-3')" title="Toggle Theater Mode">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-          </button>
-          <button class="icon-btn" onclick="openCustomFullscreen(3)" title="Toggle Fullscreen">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-          </button>
+          <div class="view-modes-group">
+            <button class="icon-btn" onclick="toggleTheater('card-3')" title="Toggle Focused View">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
+            </button>
+            <button class="icon-btn" onclick="openCustomFullscreen(3)" title="Toggle Fullscreen">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+            </button>
+          </div>
         </div>
       </div>
       <div class="wrap" onclick="togglePlayPause(3)">
@@ -1208,7 +1221,7 @@
       });
     }
 
-    // Theater Mode Toggle
+    // Focused View Toggle
     function toggleTheater(cardId) {
       const card = document.getElementById(cardId);
       const grid = document.getElementById('camGrid');
@@ -1399,9 +1412,9 @@
         target: "tour-step-maplink"
       },
       {
-        title: "Theater Mode & Fullscreen",
-        body: "Use Theater Mode to expand a specific camera card, or click Fullscreen for a pristine, clean view with auto-hiding controls.",
-        target: "tour-step-theater"
+        title: "Focused View & Fullscreen",
+        body: "Use Focused View to expand a specific camera card, or click Fullscreen for a pristine, clean view with auto-hiding controls.",
+        target: "tour-step-viewmodes"
       }
     ];
 
