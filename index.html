@@ -174,7 +174,7 @@
       font-size: 0.8rem;
     }
 
-    /* Weather Popup Card (Matched to Theme) */
+    /* Weather Popup Card */
     .weather-popup {
       display: none;
       position: absolute;
@@ -418,12 +418,27 @@
       font-size: 0.8rem;
     }
 
+    /* Status Dot Dynamic Colors */
     .status-dot {
       width: 8px;
       height: 8px;
-      background-color: #10b981;
       border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s, box-shadow 0.3s;
     }
+    .status-dot.online {
+      background-color: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+    }
+    .status-dot.buffering {
+      background-color: #f59e0b;
+      box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+    }
+    .status-dot.offline {
+      background-color: #ef4444;
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+    }
+
     .header-right {
       display: flex;
       align-items: center;
@@ -503,6 +518,27 @@
     }
     .stream-overlay-btn:active {
       transform: scale(0.96);
+    }
+
+    /* Offline Video Overlay Notice */
+    .offline-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 15, 25, 0.9);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ef4444;
+      font-size: 0.85rem;
+      gap: 8px;
+      z-index: 5;
+    }
+    .offline-overlay.show {
+      display: flex;
     }
 
     /* Card Footer Description info */
@@ -650,7 +686,7 @@
     <div class="card" id="card-1">
       <div class="card-header">
         <div class="card-title-wrap">
-          <span class="status-dot"></span>
+          <span class="status-dot online" id="status-dot-1" title="Stream Status: Online"></span>
           <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" title="View on Google Maps">
             <span>Genmiskih Fannu</span>
             <span class="map-icon">📍</span>
@@ -668,6 +704,10 @@
       </div>
       <div class="wrap" onclick="togglePlayPause(1)">
         <div id="player-1"></div>
+        <div class="offline-overlay" id="offline-1">
+          <span style="font-size: 1.5rem;">⚠️</span>
+          <span>Camera Stream Offline</span>
+        </div>
         <button class="stream-overlay-btn" id="btn-play-1" onclick="event.stopPropagation(); togglePlayPause(1);">
           <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
         </button>
@@ -682,7 +722,7 @@
     <div class="card" id="card-2">
       <div class="card-header">
         <div class="card-title-wrap">
-          <span class="status-dot"></span>
+          <span class="status-dot online" id="status-dot-2" title="Stream Status: Online"></span>
           <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" title="View on Google Maps">
             <span>Genmiskih Magu</span>
             <span class="map-icon">📍</span>
@@ -700,6 +740,10 @@
       </div>
       <div class="wrap" onclick="togglePlayPause(2)">
         <div id="player-2"></div>
+        <div class="offline-overlay" id="offline-2">
+          <span style="font-size: 1.5rem;">⚠️</span>
+          <span>Camera Stream Offline</span>
+        </div>
         <button class="stream-overlay-btn" id="btn-play-2" onclick="event.stopPropagation(); togglePlayPause(2);">
           <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
         </button>
@@ -714,7 +758,7 @@
     <div class="card" id="card-3">
       <div class="card-header">
         <div class="card-title-wrap">
-          <span class="status-dot"></span>
+          <span class="status-dot online" id="status-dot-3" title="Stream Status: Online"></span>
           <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" title="View on Google Maps">
             <span>Fuvahmulah Fish Market</span>
             <span class="map-icon">📍</span>
@@ -732,6 +776,10 @@
       </div>
       <div class="wrap" onclick="togglePlayPause(3)">
         <div id="player-3"></div>
+        <div class="offline-overlay" id="offline-3">
+          <span style="font-size: 1.5rem;">⚠️</span>
+          <span>Camera Stream Offline</span>
+        </div>
         <button class="stream-overlay-btn" id="btn-play-3" onclick="event.stopPropagation(); togglePlayPause(3);">
           <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
         </button>
@@ -924,6 +972,47 @@
       }
     }
 
+    // Live Status Health Checker Functions
+    function updateCamStatus(index, status) {
+      const dot = document.getElementById(`status-dot-${index}`);
+      const offlineNotice = document.getElementById(`offline-${index}`);
+      
+      if (!dot) return;
+
+      dot.className = 'status-dot ' + status;
+
+      if (status === 'online') {
+        dot.title = 'Stream Status: Online';
+        if (offlineNotice) offlineNotice.classList.remove('show');
+      } else if (status === 'buffering') {
+        dot.title = 'Stream Status: Buffering...';
+        if (offlineNotice) offlineNotice.classList.remove('show');
+      } else if (status === 'offline') {
+        dot.title = 'Stream Status: Offline';
+        if (offlineNotice) offlineNotice.classList.add('show');
+      }
+    }
+
+    // Handle Player State Changes
+    function createPlayerStateChangeHandler(index) {
+      return function(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+          updateCamStatus(index, 'online');
+        } else if (event.data === YT.PlayerState.BUFFERING) {
+          updateCamStatus(index, 'buffering');
+        } else if (event.data === YT.PlayerState.ENDED) {
+          updateCamStatus(index, 'offline');
+        }
+      };
+    }
+
+    // Handle Player Errors
+    function createPlayerErrorHandler(index) {
+      return function(event) {
+        updateCamStatus(index, 'offline');
+      };
+    }
+
     // Initialize all three players dynamically via the official API
     function onYouTubeIframeAPIReady() {
       const origin = window.location.origin;
@@ -938,25 +1027,18 @@
         'widget_referrer': origin
       };
 
-      players[1] = new YT.Player('player-1', {
-        height: '100%',
-        width: '100%',
-        videoId: 'HMmVUTWDN3s',
-        playerVars: commonVars
-      });
-
-      players[2] = new YT.Player('player-2', {
-        height: '100%',
-        width: '100%',
-        videoId: 'dJ3lcom_xk8',
-        playerVars: commonVars
-      });
-
-      players[3] = new YT.Player('player-3', {
-        height: '100%',
-        width: '100%',
-        videoId: 'GW5qgbT80oA',
-        playerVars: commonVars
+      [1, 2, 3].forEach(id => {
+        const videoIds = { 1: 'HMmVUTWDN3s', 2: 'dJ3lcom_xk8', 3: 'GW5qgbT80oA' };
+        players[id] = new YT.Player(`player-${id}`, {
+          height: '100%',
+          width: '100%',
+          videoId: videoIds[id],
+          playerVars: commonVars,
+          events: {
+            'onStateChange': createPlayerStateChangeHandler(id),
+            'onError': createPlayerErrorHandler(id)
+          }
+        });
       });
     }
   </script>
