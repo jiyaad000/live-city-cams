@@ -898,7 +898,7 @@
             <span id="themeIcon">☀️</span>
           </button>
 
-          <!-- Redesigned Layout Selector Icons -->
+          <!-- Layout Selector -->
           <div class="layout-btns">
             <button class="layout-btn" onclick="setLayout(1)" title="1 Column Layout">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/></svg>
@@ -921,124 +921,8 @@
     </div>
   </header>
 
-  <!-- Camera Grid -->
-  <main class="grid" id="camGrid">
-    
-    <!-- Cam 1 -->
-    <div class="card" id="card-1">
-      <div class="card-header">
-        <div class="card-title-wrap">
-          <span class="status-dot online" id="status-dot-1" title="Stream Status: Online"></span>
-          <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" title="View on Google Maps" id="tour-step-maplink">
-            <span>Genmiskih Fannu</span>
-            <span class="map-icon">📍</span>
-          </a>
-        </div>
-        <div class="header-right">
-          <span class="cam-tag">Cam 01</span>
-          <div class="view-modes-group" id="tour-step-viewmodes">
-            <button class="icon-btn" onclick="toggleTheater('card-1')" title="Toggle Focused View">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
-            </button>
-            <button class="icon-btn" onclick="openCustomFullscreen(1)" title="Toggle Fullscreen">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="wrap" onclick="togglePlayPause(1)">
-        <div id="player-1"></div>
-        <div class="offline-overlay" id="offline-1">
-          <span style="font-size: 1.5rem;">⚠️</span>
-          <span>Camera Stream Offline</span>
-        </div>
-        <button class="stream-overlay-btn" id="btn-play-1" onclick="event.stopPropagation(); togglePlayPause(1);">
-          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
-        </button>
-      </div>
-      <div class="card-footer">
-        <span>Genmiskih Fannu | Beach Area View</span>
-        <a href="https://www.youtube.com/watch?v=HMmVUTWDN3s" target="_blank">Direct Link ↗</a>
-      </div>
-    </div>
-
-    <!-- Cam 2 -->
-    <div class="card" id="card-2">
-      <div class="card-header">
-        <div class="card-title-wrap">
-          <span class="status-dot online" id="status-dot-2" title="Stream Status: Online"></span>
-          <a href="https://maps.app.goo.gl/W3pUTqwt4kksLuyAA" target="_blank" title="View on Google Maps">
-            <span>Genmiskih Magu</span>
-            <span class="map-icon">📍</span>
-          </a>
-        </div>
-        <div class="header-right">
-          <span class="cam-tag">Cam 02</span>
-          <div class="view-modes-group">
-            <button class="icon-btn" onclick="toggleTheater('card-2')" title="Toggle Focused View">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
-            </button>
-            <button class="icon-btn" onclick="openCustomFullscreen(2)" title="Toggle Fullscreen">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="wrap" onclick="togglePlayPause(2)">
-        <div id="player-2"></div>
-        <div class="offline-overlay" id="offline-2">
-          <span style="font-size: 1.5rem;">⚠️</span>
-          <span>Camera Stream Offline</span>
-        </div>
-        <button class="stream-overlay-btn" id="btn-play-2" onclick="event.stopPropagation(); togglePlayPause(2);">
-          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
-        </button>
-      </div>
-      <div class="card-footer">
-        <span>Genmiskih Magu | Road Junction View</span>
-        <a href="https://www.youtube.com/watch?v=dJ3lcom_xk8" target="_blank">Direct Link ↗</a>
-      </div>
-    </div>
-
-    <!-- Cam 3 -->
-    <div class="card" id="card-3">
-      <div class="card-header">
-        <div class="card-title-wrap">
-          <span class="status-dot online" id="status-dot-3" title="Stream Status: Online"></span>
-          <a href="https://maps.app.goo.gl/5hqgLuZoBj4MMHin9" target="_blank" title="View on Google Maps">
-            <span>Fuvahmulah Fish Market</span>
-            <span class="map-icon">📍</span>
-          </a>
-        </div>
-        <div class="header-right">
-          <span class="cam-tag">Cam 03</span>
-          <div class="view-modes-group">
-            <button class="icon-btn" onclick="toggleTheater('card-3')" title="Toggle Focused View">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
-            </button>
-            <button class="icon-btn" onclick="openCustomFullscreen(3)" title="Toggle Fullscreen">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="wrap" onclick="togglePlayPause(3)">
-        <div id="player-3"></div>
-        <div class="offline-overlay" id="offline-3">
-          <span style="font-size: 1.5rem;">⚠️</span>
-          <span>Camera Stream Offline</span>
-        </div>
-        <button class="stream-overlay-btn" id="btn-play-3" onclick="event.stopPropagation(); togglePlayPause(3);">
-          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
-        </button>
-      </div>
-      <div class="card-footer">
-        <span>Fuvahmulah Fish Market Area</span>
-        <a href="https://www.youtube.com/watch?v=GW5qgbT80oA" target="_blank">Direct Link ↗</a>
-      </div>
-    </div>
-
-  </main>
+  <!-- Camera Grid (Dynamically Populated from JS Array) -->
+  <main class="grid" id="camGrid"></main>
 
   <!-- Custom True Fullscreen Overlay Modal -->
   <div id="fs-modal">
@@ -1088,6 +972,96 @@
   <!-- Load YouTube IFrame Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
+    // ==========================================
+    // 🎥 CAMERA FEEDS CONFIGURATION ARRAY
+    // To add a new camera in the future, just add 
+    // a new entry below!
+    // ==========================================
+    const cameras = [
+      {
+        id: 1,
+        title: "Genmiskih Fannu",
+        subtitle: "Genmiskih Fannu | Beach Area View",
+        videoId: "HMmVUTWDN3s",
+        mapLink: "https://maps.app.goo.gl/ZorTSqK7FvrwesFy7"
+      },
+      {
+        id: 2,
+        title: "Genmiskih Magu",
+        subtitle: "Genmiskih Magu | Road Junction View",
+        videoId: "dJ3lcom_xk8",
+        mapLink: "https://maps.app.goo.gl/W3pUTqwt4kksLuyAA"
+      },
+      {
+        id: 3,
+        title: "Fuvahmulah Fish Market",
+        subtitle: "Fuvahmulah Fish Market Area",
+        videoId: "GW5qgbT80oA",
+        mapLink: "https://maps.app.goo.gl/5hqgLuZoBj4MMHin9"
+      }
+      /* --- EXAMPLE OF HOW TO ADD A 4TH CAM LATER ---
+      {
+        id: 4,
+        title: "New Location Name",
+        subtitle: "New Location | Description",
+        videoId: "YOUR_YOUTUBE_VIDEO_ID",
+        mapLink: "YOUR_GOOGLE_MAPS_LINK"
+      }
+      ----------------------------------------------- */
+    ];
+
+    // Dynamically generate camera cards on page load
+    function renderCameraGrid() {
+      const grid = document.getElementById('camGrid');
+      grid.innerHTML = '';
+
+      cameras.forEach((cam, index) => {
+        const camNumber = String(cam.id).padStart(2, '0');
+        const isFirst = index === 0;
+
+        const cardHTML = `
+          <div class="card" id="card-${cam.id}">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <span class="status-dot online" id="status-dot-${cam.id}" title="Stream Status: Online"></span>
+                <a href="${cam.mapLink}" target="_blank" title="View on Google Maps" ${isFirst ? 'id="tour-step-maplink"' : ''}>
+                  <span>${cam.title}</span>
+                  <span class="map-icon">📍</span>
+                </a>
+              </div>
+              <div class="header-right">
+                <span class="cam-tag">Cam ${camNumber}</span>
+                <div class="view-modes-group" ${isFirst ? 'id="tour-step-viewmodes"' : ''}>
+                  <button class="icon-btn" onclick="toggleTheater('card-${cam.id}')" title="Toggle Focused View">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 5h18"/></svg>
+                  </button>
+                  <button class="icon-btn" onclick="openCustomFullscreen(${cam.id})" title="Toggle Fullscreen">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="wrap" onclick="togglePlayPause(${cam.id})">
+              <div id="player-${cam.id}"></div>
+              <div class="offline-overlay" id="offline-${cam.id}">
+                <span style="font-size: 1.5rem;">⚠️</span>
+                <span>Camera Stream Offline</span>
+              </div>
+              <button class="stream-overlay-btn" id="btn-play-${cam.id}" onclick="event.stopPropagation(); togglePlayPause(${cam.id});">
+                <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause
+              </button>
+            </div>
+            <div class="card-footer">
+              <span>${cam.subtitle}</span>
+              <a href="https://www.youtube.com/watch?v=${cam.videoId}" target="_blank">Direct Link ↗</a>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+    }
+    renderCameraGrid();
+
     // Theme Switcher Logic
     function initTheme() {
       const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -1121,7 +1095,6 @@
       popup.classList.toggle('open');
     }
 
-    // Close weather popup when clicking anywhere outside
     document.addEventListener('click', () => {
       document.getElementById('weatherPopup').classList.remove('open');
     });
@@ -1250,9 +1223,9 @@
         modal.webkitRequestFullscreen();
       }
 
-      const videoIds = { 1: 'HMmVUTWDN3s', 2: 'dJ3lcom_xk8', 3: 'GW5qgbT80oA' };
-      if (players['fs'] && typeof players['fs'].loadVideoById === 'function') {
-        players['fs'].loadVideoById(videoIds[index]);
+      const camObj = cameras.find(c => c.id === index);
+      if (players['fs'] && typeof players['fs'].loadVideoById === 'function' && camObj) {
+        players['fs'].loadVideoById(camObj.videoId);
       }
     }
 
@@ -1366,16 +1339,15 @@
         'widget_referrer': origin
       };
 
-      [1, 2, 3].forEach(id => {
-        const videoIds = { 1: 'HMmVUTWDN3s', 2: 'dJ3lcom_xk8', 3: 'GW5qgbT80oA' };
-        players[id] = new YT.Player(`player-${id}`, {
+      cameras.forEach(cam => {
+        players[cam.id] = new YT.Player(`player-${cam.id}`, {
           height: '100%',
           width: '100%',
-          videoId: videoIds[id],
+          videoId: cam.videoId,
           playerVars: commonVars,
           events: {
-            'onStateChange': createPlayerStateChangeHandler(id),
-            'onError': createPlayerErrorHandler(id)
+            'onStateChange': createPlayerStateChangeHandler(cam.id),
+            'onError': createPlayerErrorHandler(cam.id)
           }
         });
       });
@@ -1383,7 +1355,7 @@
       players['fs'] = new YT.Player('player-fs', {
         height: '100%',
         width: '100%',
-        videoId: 'HMmVUTWDN3s',
+        videoId: cameras[0].videoId,
         playerVars: commonVars
       });
     }
