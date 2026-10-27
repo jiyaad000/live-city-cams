@@ -625,7 +625,6 @@
       border: 0;
       pointer-events: none;
     }
-    /* Fullscreen UI Bar (Bottom) */
     .fs-bar {
       position: absolute;
       bottom: 0;
@@ -660,6 +659,120 @@
     #fs-modal.idle .fs-bar {
       opacity: 0;
       pointer-events: none;
+    }
+
+    /* Onboarding Tour Overlay Styles */
+    #tour-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 99999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      backdrop-filter: blur(3px);
+    }
+    #tour-overlay.active {
+      display: flex;
+    }
+    .tour-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      padding: 28px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: scaleUp 0.25s ease-out;
+    }
+    @keyframes scaleUp {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .tour-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tour-step-indicator {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #38bdf8;
+      text-transform: uppercase;
+    }
+    .tour-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .tour-body {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .tour-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+    }
+    .tour-skip {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .tour-skip:hover {
+      color: var(--text-main);
+    }
+    .tour-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .tour-btn-back, .tour-btn-next {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .tour-btn-back {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+    .tour-btn-back:hover {
+      background: var(--btn-hover);
+    }
+    .tour-btn-next {
+      background: #0284c7;
+      border: 1px solid #0284c7;
+      color: #fff;
+    }
+    .tour-btn-next:hover {
+      background: #0369a1;
+    }
+
+    /* Highlight class for active tour target */
+    .tour-highlight {
+      position: relative;
+      z-index: 100000 !important;
+      box-shadow: 0 0 0 4px #38bdf8, 0 0 20px rgba(56, 189, 248, 0.5) !important;
+      border-radius: 8px;
+      transition: box-shadow 0.3s ease;
     }
 
     /* Footer */
@@ -702,7 +815,7 @@
   <!-- Top Navigation Header -->
   <header class="top-bar">
     <div class="brand-group">
-      <div class="brand">
+      <div class="brand" id="tour-step-brand">
         <div class="brand-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         </div>
@@ -761,13 +874,18 @@
       </div>
 
       <div class="controls">
+        <!-- Help / Guide Button -->
+        <button class="action-btn" onclick="startTour()" title="Site Guide">
+          <span>❔ Guide</span>
+        </button>
+
         <!-- Dark/Light Theme Toggle -->
         <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
           <span id="themeIcon">☀️</span>
         </button>
 
         <!-- Layout Selector -->
-        <div class="layout-btns">
+        <div class="layout-btns" id="tour-step-layout">
           <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
           </button>
@@ -806,7 +924,7 @@
           <button class="icon-btn" onclick="toggleTheater('card-1')" title="Toggle Theater Mode">
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/></svg>
           </button>
-          <button class="icon-btn" onclick="openCustomFullscreen(1)" title="Toggle Fullscreen">
+          <button class="icon-btn" id="tour-step-fs" onclick="openCustomFullscreen(1)" title="Toggle Fullscreen">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
           </button>
         </div>
@@ -901,7 +1019,7 @@
 
   </main>
 
-  <!-- Custom True Fullscreen Overlay Modal (Cleaned up with only Play/Pause & Exit) -->
+  <!-- Custom True Fullscreen Overlay Modal -->
   <div id="fs-modal">
     <div id="fs-wrap" onclick="togglePlayPause(activeFsCam)">
       <div id="player-fs"></div>
@@ -913,6 +1031,25 @@
       <button class="fs-btn" onclick="closeCustomFullscreen()">
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Exit Fullscreen
       </button>
+    </div>
+  </div>
+
+  <!-- Interactive Onboarding Tour Modal -->
+  <div id="tour-overlay">
+    <div class="tour-card">
+      <div class="tour-header">
+        <span class="tour-step-indicator" id="tourIndicator">Step 1 of 5</span>
+        <button class="tour-skip" onclick="endTour()">Skip Tour</button>
+      </div>
+      <div class="tour-title" id="tourTitle">Welcome to Fuvahmulah City Cams!</div>
+      <div class="tour-body" id="tourBody">Get a live look around the island with real-time weather and marine conditions. Let's take a quick tour of the features!</div>
+      <div class="tour-footer">
+        <button class="tour-btn-back" id="tourBackBtn" onclick="prevTourStep()" style="display:none;">Back</button>
+        <div></div>
+        <div class="tour-btns">
+          <button class="tour-btn-next" id="tourNextBtn" onclick="nextTourStep()">Next</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1017,7 +1154,7 @@
 
           let dIcon = '🌤️';
           if (dCode === 0) dIcon = '☀️';
-          else if (dCode >= 1 && dCode <= 2) dIcon = '⛅';
+          else if (dCode >= 1 && dCode === 2) dIcon = '⛅';
           else if (dCode === 3) dIcon = '☁️';
           else if (dCode >= 51 && dCode <= 67) dIcon = '🌧️';
           else if (dCode >= 95) dIcon = '⚡';
@@ -1076,7 +1213,7 @@
       }
     }
 
-    // Custom Fullscreen State & Logic with Browser Fullscreen API
+    // Custom Fullscreen State & Logic
     let activeFsCam = null;
     let idleTimer = null;
 
@@ -1229,6 +1366,95 @@
         playerVars: commonVars
       });
     }
+
+    // --- Onboarding Tour Logic ---
+    let currentTourStep = 0;
+    const tourSteps = [
+      {
+        title: "Welcome to Fuvahmulah City Cams!",
+        body: "Explore live feeds from around the island in real-time, complete with local weather and marine forecasts.",
+        target: null
+      },
+      {
+        title: "Live Weather & Marine Data",
+        body: "Click here anytime to view a detailed 6-day weather forecast, humidity, wind speeds, sea level, wave height, and wave period.",
+        target: "weatherWidget"
+      },
+      {
+        title: "Layout & Theme Controls",
+        body: "Switch between 1, 2, or 3-column grid layouts, toggle between Light and Dark mode, or reopen this Guide whenever you like.",
+        target: "tour-step-layout"
+      },
+      {
+        title: "Stream Status Indicators",
+        body: "Each camera has a live health indicator dot: Green means online, Yellow means buffering, and Red means offline.",
+        target: "status-dot-1"
+      },
+      {
+        title: "True Fullscreen Experience",
+        body: "Click the fullscreen button on any camera to enter a pristine, clean view with auto-hiding controls for the ultimate live viewing experience.",
+        target: "tour-step-fs"
+      }
+    ];
+
+    function startTour() {
+      currentTourStep = 0;
+      document.getElementById('tour-overlay').classList.add('active');
+      renderTourStep();
+    }
+
+    function endTour() {
+      document.getElementById('tour-overlay').classList.remove('active');
+      clearTourHighlights();
+      localStorage.setItem('tourCompleted', 'true');
+    }
+
+    function clearTourHighlights() {
+      document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+    }
+
+    function renderTourStep() {
+      clearTourHighlights();
+      const step = tourSteps[currentTourStep];
+      
+      document.getElementById('tourIndicator').textContent = `Step ${currentTourStep + 1} of ${tourSteps.length}`;
+      document.getElementById('tourTitle').textContent = step.title;
+      document.getElementById('tourBody').textContent = step.body;
+
+      document.getElementById('tourBackBtn').style.display = currentTourStep > 0 ? 'inline-block' : 'none';
+      document.getElementById('tourNextBtn').textContent = currentTourStep === tourSteps.length - 1 ? 'Finish' : 'Next';
+
+      if (step.target) {
+        const el = document.getElementById(step.target);
+        if (el) {
+          el.classList.add('tour-highlight');
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
+    function nextTourStep() {
+      if (currentTourStep < tourSteps.length - 1) {
+        currentTourStep++;
+        renderTourStep();
+      } else {
+        endTour();
+      }
+    }
+
+    function prevTourStep() {
+      if (currentTourStep > 0) {
+        currentTourStep--;
+        renderTourStep();
+      }
+    }
+
+    // Auto-launch tour on first visit
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!localStorage.getItem('tourCompleted')) {
+        setTimeout(startTour, 800);
+      }
+    });
   </script>
 
 </body>
