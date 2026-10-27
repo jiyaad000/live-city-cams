@@ -378,6 +378,12 @@
       background: var(--btn-hover);
     }
 
+    #tour-step-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     /* Grid Layouts */
     .grid {
       display: grid;
@@ -815,7 +821,7 @@
   <!-- Top Navigation Header -->
   <header class="top-bar">
     <div class="brand-group">
-      <div class="brand" id="tour-step-brand">
+      <div class="brand">
         <div class="brand-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         </div>
@@ -874,27 +880,29 @@
       </div>
 
       <div class="controls">
-        <!-- Help / Guide Button -->
-        <button class="action-btn" onclick="startTour()" title="Site Guide">
-          <span>❔ Guide</span>
-        </button>
+        <div id="tour-step-controls" class="controls">
+          <!-- Help / Guide Button -->
+          <button class="action-btn" onclick="startTour()" title="Site Guide">
+            <span>❔ Guide</span>
+          </button>
 
-        <!-- Dark/Light Theme Toggle -->
-        <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
-          <span id="themeIcon">☀️</span>
-        </button>
+          <!-- Dark/Light Theme Toggle -->
+          <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
+            <span id="themeIcon">☀️</span>
+          </button>
 
-        <!-- Layout Selector -->
-        <div class="layout-btns" id="tour-step-layout">
-          <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
-          </button>
-          <button class="layout-btn" onclick="setLayout(2)" title="2 Columns">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h5v16H2a2 2 0 0 1-2-2V2zm7 0h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7V2z"/></svg>
-          </button>
-          <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
-          </button>
+          <!-- Layout Selector -->
+          <div class="layout-btns">
+            <button class="layout-btn" onclick="setLayout(1)" title="1 Column">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect width="16" height="16" rx="2"/></svg>
+            </button>
+            <button class="layout-btn" onclick="setLayout(2)" title="2 Columns">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h5v16H2a2 2 0 0 1-2-2V2zm7 0h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7V2z"/></svg>
+            </button>
+            <button class="layout-btn active" onclick="setLayout(3)" title="3 Columns">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h4v16H2a2 2 0 0 1-2-2V2zm5 0h6v16H5V2zm7 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V2z"/></svg>
+            </button>
+          </div>
         </div>
 
         <!-- Refresh Button -->
@@ -914,14 +922,14 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <span class="status-dot online" id="status-dot-1" title="Stream Status: Online"></span>
-          <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" title="View on Google Maps">
+          <a href="https://maps.app.goo.gl/ZorTSqK7FvrwesFy7" target="_blank" title="View on Google Maps" id="tour-step-maplink">
             <span>Genmiskih Fannu</span>
             <span class="map-icon">📍</span>
           </a>
         </div>
         <div class="header-right">
           <span class="cam-tag">Cam 01</span>
-          <button class="icon-btn" onclick="toggleTheater('card-1')" title="Toggle Theater Mode">
+          <button class="icon-btn" id="tour-step-theater" onclick="toggleTheater('card-1')" title="Toggle Theater Mode">
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/></svg>
           </button>
           <button class="icon-btn" id="tour-step-fs" onclick="openCustomFullscreen(1)" title="Toggle Fullscreen">
@@ -1383,17 +1391,17 @@
       {
         title: "Layout & Theme Controls",
         body: "Switch between 1, 2, or 3-column grid layouts, toggle between Light and Dark mode, or reopen this Guide whenever you like.",
-        target: "tour-step-layout"
+        target: "tour-step-controls"
       },
       {
-        title: "Stream Status Indicators",
-        body: "Each camera has a live health indicator dot: Green means online, Yellow means buffering, and Red means offline.",
-        target: "status-dot-1"
+        title: "View Location on Map",
+        body: "Click on any camera's name to instantly view its exact location on Google Maps.",
+        target: "tour-step-maplink"
       },
       {
-        title: "True Fullscreen Experience",
-        body: "Click the fullscreen button on any camera to enter a pristine, clean view with auto-hiding controls for the ultimate live viewing experience.",
-        target: "tour-step-fs"
+        title: "Theater Mode & Fullscreen",
+        body: "Use Theater Mode to expand a specific camera card, or click Fullscreen for a pristine, clean view with auto-hiding controls.",
+        target: "tour-step-theater"
       }
     ];
 
