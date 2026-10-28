@@ -383,11 +383,6 @@
     .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
     .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 
-    @media (max-width: 1024px) {
-      .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
-      .grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
-    }
-
     /* Camera Cards */
     .card {
       background: var(--card-bg);
@@ -1074,7 +1069,16 @@
         justify-content: center;
       }
       
-      /* Clean card header arrangement on mobile for 2/3 column modes */
+      /* Hide the 3rd column layout button on mobile */
+      .layout-btn:nth-child(3) {
+        display: none !important;
+      }
+
+      /* Clamp 3-column layout to max 2 columns on phones */
+      .grid.cols-3 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+
       .card-header {
         flex-direction: column;
         align-items: stretch;
