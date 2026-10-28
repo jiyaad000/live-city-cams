@@ -889,10 +889,10 @@
     #tour-overlay.active {
       display: flex;
     }
-    /* Dynamic positioning class for mobile to avoid overlap */
+    /* Adjusted mobile bottom offset so it doesn't overlap the navigation bar */
     #tour-overlay.mobile-bottom {
       align-items: flex-end !important;
-      padding-bottom: 24px;
+      padding-bottom: 70px;
     }
 
     .tour-card {
@@ -1799,7 +1799,7 @@
       document.getElementById('tourBackBtn').style.display = currentTourStep > 0 ? 'inline-block' : 'none';
       document.getElementById('tourNextBtn').textContent = currentTourStep === tourSteps.length - 1 ? 'Finish' : 'Next';
 
-      // On mobile screens, move the tour card to the bottom for steps 3, 4, and 5 so it never overlaps the highlighted header/cards
+      // On mobile screens, move the tour card up slightly higher so it never touches the bottom system navigation bar
       if (window.innerWidth <= 768 && currentTourStep >= 2) {
         overlay.classList.add('mobile-bottom');
       }
