@@ -362,13 +362,6 @@
       background: var(--btn-hover);
     }
 
-    #tour-step-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
     /* Grid Layouts */
     .grid {
       display: grid;
@@ -1196,7 +1189,7 @@
     </div>
   </header>
 
-  <!-- Camera Grid (Dynamically Populated with responsive default) -->
+  <!-- Camera Grid (Dynamically Populated) -->
   <main class="grid" id="camGrid"></main>
 
   <!-- Simple Timelapse Modal -->
@@ -1313,12 +1306,11 @@
       }
     ];
 
-    // Dynamically generate camera cards on page load and set responsive initial layout
+    // Dynamically generate camera cards on page load
     function renderCameraGrid() {
       const grid = document.getElementById('camGrid');
       grid.innerHTML = '';
 
-      // Set initial layout based on screen width: 2 columns for mobile, 3 for desktop
       const initialCols = window.innerWidth <= 768 ? 2 : 3;
       grid.className = 'grid cols-' + initialCols;
 
@@ -1756,8 +1748,8 @@
       },
       {
         title: "Layout & Theme Controls",
-        body: "Switch between 1, 2, or 3-column grid layouts, toggle between Light and Dark mode, or reopen this Guide whenever you like.",
-        target: "tour-step-controls"
+        body: "Switch between 1 or 2-column grid layouts, toggle between Light and Dark mode, or reopen this Guide whenever you like.",
+        target: "layoutBtnsContainer"
       },
       {
         title: "View Location on Map",
