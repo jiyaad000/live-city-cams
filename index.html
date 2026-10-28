@@ -884,10 +884,17 @@
       align-items: center;
       padding: 16px;
       backdrop-filter: blur(3px);
+      transition: align-items 0.3s ease;
     }
     #tour-overlay.active {
       display: flex;
     }
+    /* Dynamic positioning class for mobile to avoid overlap */
+    #tour-overlay.mobile-bottom {
+      align-items: flex-end !important;
+      padding-bottom: 24px;
+    }
+
     .tour-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -1777,11 +1784,13 @@
 
     function clearTourHighlights() {
       document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+      document.getElementById('tour-overlay').classList.remove('mobile-bottom');
     }
 
     function renderTourStep() {
       clearTourHighlights();
       const step = tourSteps[currentTourStep];
+      const overlay = document.getElementById('tour-overlay');
       
       document.getElementById('tourIndicator').textContent = `Step ${currentTourStep + 1} of ${tourSteps.length}`;
       document.getElementById('tourTitle').textContent = step.title;
@@ -1790,11 +1799,18 @@
       document.getElementById('tourBackBtn').style.display = currentTourStep > 0 ? 'inline-block' : 'none';
       document.getElementById('tourNextBtn').textContent = currentTourStep === tourSteps.length - 1 ? 'Finish' : 'Next';
 
+      // On mobile screens, move the tour card to the bottom for steps 3, 4, and 5 so it never overlaps the highlighted header/cards
+      if (window.innerWidth <= 768 && currentTourStep >= 2) {
+        overlay.classList.add('mobile-bottom');
+      }
+
       if (step.target) {
         const el = document.getElementById(step.target);
         if (el) {
           el.classList.add('tour-highlight');
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (currentTourStep < 2 || window.innerWidth > 768) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
         }
       }
     }
