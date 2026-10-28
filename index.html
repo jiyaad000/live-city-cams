@@ -1068,10 +1068,7 @@
         flex: 1;
         justify-content: center;
       }
-      .grid {
-        grid-template-columns: 1fr !important;
-        gap: 14px;
-      }
+      /* Removed forced 1-column override so user layout toggles work properly on mobile */
       .card-header {
         flex-direction: column;
         align-items: flex-start;
@@ -1724,7 +1721,7 @@
     const tourSteps = [
       {
         title: "Welcome to Fuvahmulah City Cams!",
-        body: "Explore live feeds from around the island in real-time, complete with local weather and marine forecasts.",
+        body: "Explore live camera feeds from around the island in real-time, complete with local weather and marine forecasts.",
         target: null
       },
       {
