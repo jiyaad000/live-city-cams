@@ -1088,19 +1088,24 @@
       }
       .controls {
         width: 100%;
-        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap; /* Keeps all buttons in 1 single row */
       }
       #tour-step-controls {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .layout-btns {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: auto;
         flex: 1;
-        justify-content: center;
       }
       .action-btn {
         flex: 1;
         justify-content: center;
+        padding: 8px 6px;
+        font-size: 0.8rem;
+        white-space: nowrap; /* Prevents button text from wrapping */
       }
       
       /* Hide the 3rd column layout button on mobile */
@@ -1238,10 +1243,10 @@
       </div>
 
       <div class="controls">
-        <div id="tour-step-controls" class="controls">
+        <div id="tour-step-controls">
           <!-- Help / Guide Button -->
           <button class="action-btn" onclick="startTour()" title="Site Guide">
-            <span>❔ Guide</span>
+            <span>💡 Quick Tour</span>
           </button>
 
           <!-- Dark/Light Theme Toggle -->
@@ -1409,7 +1414,6 @@
       if (btn) btn.innerHTML = playing ? PAUSE_BTN_HTML : PLAY_BTN_HTML;
     }
 
-    // A paused live stream resumes behind the live edge, so reload it if it was paused a while
     function resumeLive(id, player) {
       const cam = cameras.find(c => c.id === id);
       if (cam && pausedAt[id] && Date.now() - pausedAt[id] > 15000) player.loadVideoById(cam.videoId);
@@ -1548,7 +1552,7 @@
         document.webkitExitFullscreen();
       }
 
-      iframe.src = ''; // Stops video playback
+      iframe.src = ''; 
       modal.style.display = 'none';
     }
 
@@ -1578,7 +1582,6 @@
       }, 3000);
     });
 
-    // localStorage can throw (private mode / blocked storage), so wrap it
     function storageGet(key) {
       try { return localStorage.getItem(key); } catch (e) { return null; }
     }
@@ -1603,7 +1606,7 @@
 
     initTheme();
 
-    // Live Clock Ticker for Fuvahmulah (Maldives Time / Indian/Maldives timezone UTC+5)
+    // Live Clock Ticker for Fuvahmulah
     function updateClock() {
       const now = new Date();
       const timeString = now.toLocaleTimeString('en-US', { timeZone: 'Indian/Maldives', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
@@ -1630,7 +1633,6 @@
       if (document.getElementById('timelapse-modal').style.display === 'flex') closeTimelapse();
     });
 
-    // Map Open-Meteo WMO weather codes to an icon + description
     function describeWeather(code) {
       if (code === 0) return { icon: '☀️', condition: 'Sunny / Clear' };
       if (code === 1 || code === 2) return { icon: '⛅', condition: 'Partly Cloudy' };
@@ -1644,7 +1646,7 @@
       return { icon: '🌤️', condition: 'Fair' };
     }
 
-    // Fetch Live Weather, Forecast, and Marine Data from Open-Meteo
+    // Fetch Weather Data from Open-Meteo
     async function fetchWeather() {
       try {
         const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-0.3&longitude=73.42&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto');
@@ -1677,7 +1679,7 @@
         const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
         for (let i = 1; i < Math.min(7, daily.time.length); i++) {
-          const dateObj = new Date(daily.time[i] + 'T00:00:00Z'); // parse as UTC so the weekday never shifts
+          const dateObj = new Date(daily.time[i] + 'T00:00:00Z');
           const dayName = daysOfWeek[dateObj.getUTCDay()];
           const maxT = Math.round(daily.temperature_2m_max[i]);
           const minT = Math.round(daily.temperature_2m_min[i]);
@@ -1718,20 +1720,14 @@
       }
     }
     fetchWeather();
-    setInterval(fetchWeather, 10 * 60 * 1000); // keep weather fresh
+    setInterval(fetchWeather, 10 * 60 * 1000);
 
-    // One-time "rotate your phone" tip (only displayed on portrait phones via CSS)
     function dismissRotateHint() {
       storageSet('rotateHintDismissed', 'true');
       document.getElementById('rotateHint').classList.remove('show');
     }
     if (!storageGet('rotateHintDismissed')) document.getElementById('rotateHint').classList.add('show');
 
-    // Grid Layout Switcher
-    // Layout modes:
-    //  phone   - portrait phone (<= 600px wide): always 1 column, selector hidden
-    //  compact - landscape phone or small tablet: 2 columns by default, choose 1 or 2
-    //  desktop - 1, 2 or 3 columns (default 3)
     function layoutMode() {
       if (window.matchMedia('(max-height: 500px) and (orientation: landscape)').matches) return 'compact';
       if (window.matchMedia('(max-width: 600px)').matches) return 'phone';
@@ -1748,7 +1744,7 @@
 
     function setGridCols(cols) {
       const grid = document.getElementById('camGrid');
-      grid.classList.remove('cols-1', 'cols-2', 'cols-3'); // keeps other classes such as has-theater
+      grid.classList.remove('cols-1', 'cols-2', 'cols-3');
       grid.classList.add('cols-' + cols);
       document.querySelectorAll('.layout-btn').forEach((btn, index) => {
         btn.classList.toggle('active', index === (cols - 1));
@@ -1759,7 +1755,6 @@
       setGridCols(colsForMode(layoutMode()));
     }
 
-    // Manual choice from the selector (remembered separately for desktop and compact screens)
     function setLayout(cols) {
       const mode = layoutMode();
       if (mode === 'phone') return;
@@ -1767,14 +1762,12 @@
       setGridCols(cols);
     }
 
-    // Rotate the phone or resize the window: re-pick the right layout
     let layoutResizeTimer = null;
     window.addEventListener('resize', () => {
       clearTimeout(layoutResizeTimer);
       layoutResizeTimer = setTimeout(applyResponsiveLayout, 150);
     });
 
-    // Focused View Toggle
     function toggleTheater(cardId) {
       const card = document.getElementById(cardId);
       const grid = document.getElementById('camGrid');
@@ -1787,7 +1780,6 @@
       }
     }
 
-    // Custom Fullscreen State & Logic
     let activeFsCam = null;
     let idleTimer = null;
 
@@ -1810,7 +1802,6 @@
       }
     }
 
-    // Stop the hidden fullscreen player so it doesn't keep streaming in the background
     function stopFsPlayer() {
       const fsPlayer = players['fs'];
       if (fsPlayer && typeof fsPlayer.stopVideo === 'function') fsPlayer.stopVideo();
@@ -1886,7 +1877,7 @@
       if (!dot) return;
 
       clearTimeout(retryTimers[index]);
-      if (status === 'offline') retryTimers[index] = setTimeout(() => retryStream(index), 30000); // auto-retry
+      if (status === 'offline') retryTimers[index] = setTimeout(() => retryStream(index), 30000);
 
       dot.className = 'status-dot ' + status;
 
@@ -1906,7 +1897,7 @@
       return function(event) {
         if (event.data === YT.PlayerState.PLAYING) {
           updateCamStatus(index, 'online');
-          syncPlayback(index); // start paused if the card is off-screen
+          syncPlayback(index);
         } else if (event.data === YT.PlayerState.BUFFERING) {
           updateCamStatus(index, 'buffering');
         } else if (event.data === YT.PlayerState.ENDED) {
@@ -2019,7 +2010,6 @@
       document.getElementById('tourBackBtn').style.display = currentTourStep > 0 ? 'inline-block' : 'none';
       document.getElementById('tourNextBtn').textContent = currentTourStep === tourSteps.length - 1 ? 'Finish' : 'Next';
 
-      // Phones (and landscape phones) dock the tour card at the bottom
       const compactScreen = window.innerWidth <= 768 || window.innerHeight <= 500;
       if (compactScreen && currentTourStep >= 2) {
         overlay.classList.add('mobile-bottom');
@@ -2032,7 +2022,6 @@
           if (!compactScreen || currentTourStep < 2) {
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           } else {
-            // Card is docked at the bottom, so bring the highlighted element near the top, clear of it
             const gap = window.innerHeight <= 500 ? 16 : 90;
             const top = el.getBoundingClientRect().top + window.scrollY - gap;
             window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
@@ -2057,7 +2046,6 @@
       }
     }
 
-    // Auto-launch tour on first visit
     window.addEventListener('DOMContentLoaded', () => {
       if (!storageGet('tourCompleted')) {
         setTimeout(startTour, 800);
