@@ -16,25 +16,51 @@ CAMERAS_TO_ANALYZE = [
 OUTPUT_FILE = "rain_status.json"
 
 def capture_snapshot(youtube_url, output_path):
-    """Captures a single JPEG frame using ffmpeg directly (robust on Linux runners)."""
+    """Captures a snapshot frame via streamlink (bypasses YouTube datacenter IP blocks)."""
+    temp_ts = output_path + ".ts"
     try:
-        # Get stream URL from yt-dlp
-        cmd_url = ["yt-dlp", "-g", "-f", "best", youtube_url]
-        stream_url = subprocess.check_output(cmd_url, stderr=subprocess.DEVNULL).decode('utf-8').strip().splitlines()[0]
+        if os.path.exists(temp_ts):
+            os.remove(temp_ts)
+        if os.path.exists(output_path):
+            os.remove(output_path)
+
+        # 1. Grab 3 seconds of stream via streamlink
+        cmd_streamlink = [
+            "streamlink",
+            "--output", temp_ts,
+            "--force",
+            "--max-stream-duration", "3",
+            youtube_url,
+            "worst"
+        ]
+        res_sl = subprocess.run(cmd_streamlink, capture_output=True, text=True, timeout=30)
         
-        # Use ffmpeg directly to grab 1 frame
+        if not os.path.exists(temp_ts) or os.path.getsize(temp_ts) == 0:
+            print(f"  ❌ streamlink error: {res_sl.stderr.strip()}")
+            return False
+
+        # 2. Extract 1 snapshot frame via ffmpeg
         cmd_ffmpeg = [
             "ffmpeg", "-y",
-            "-i", stream_url,
+            "-i", temp_ts,
             "-vframes", "1",
             "-q:v", "2",
             output_path
         ]
-        subprocess.run(cmd_ffmpeg, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
+        res_ff = subprocess.run(cmd_ffmpeg, capture_output=True, text=True, timeout=20)
         
-        return os.path.exists(output_path) and os.path.getsize(output_path) > 0
+        if os.path.exists(temp_ts):
+            os.remove(temp_ts)
+
+        success = os.path.exists(output_path) and os.path.getsize(output_path) > 0
+        if not success:
+            print(f"  ❌ ffmpeg extraction error: {res_ff.stderr.strip()}")
+        return success
+
     except Exception as e:
-        print(f"Error capturing snapshot: {e}")
+        print(f"  ❌ Exception during snapshot capture: {e}")
+        if os.path.exists(temp_ts):
+            os.remove(temp_ts)
         return False
 
 def check_rain_with_ai(image_path, camera_name):
@@ -84,7 +110,6 @@ def main():
             if os.path.exists(snap_path):
                 os.remove(snap_path)
         else:
-            print(f"  ❌ Failed to capture frame for Camera {cam['id']}")
             status_report[str(cam['id'])] = {
                 "is_raining": False,
                 "status": "offline",
