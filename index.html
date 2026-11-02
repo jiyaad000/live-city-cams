@@ -320,12 +320,16 @@
       color: var(--text-main);
     }
 
-    /* Controls & Buttons */
+    /* Controls & Buttons (Desktop Flex Fix) */
     .controls {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
+    }
+    #tour-step-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .layout-btns {
       display: flex;
@@ -1091,13 +1095,12 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        flex-wrap: nowrap; /* Keeps all buttons in 1 single row */
+        flex-wrap: nowrap; /* Keeps all buttons in 1 single row on mobile */
       }
       #tour-step-controls {
         display: flex;
         align-items: center;
         gap: 6px;
-        width: auto;
         flex: 1;
       }
       .action-btn {
@@ -1118,12 +1121,10 @@
       .card.theater-mode { max-width: 100%; }
       .card-header { padding: 10px 12px; }
       .card-title-wrap { font-size: 0.9rem; }
-      /* Single column keeps the header on one row; two columns stack it */
       .grid.cols-2 .card-header { flex-direction: column; align-items: stretch; gap: 8px; }
       .grid.cols-2 .header-right { width: 100%; justify-content: space-between; }
       .grid.cols-2 .card-title-wrap { font-size: 0.8rem; }
       .grid.cols-2 .icon-btn { width: 34px; height: 34px; }
-      /* Weather popup fits the screen */
       .weather-popup { width: 100%; max-width: none; padding: 16px; }
       .popup-top-section { flex-direction: column; gap: 14px; }
       .popup-left { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; }
@@ -1244,9 +1245,9 @@
 
       <div class="controls">
         <div id="tour-step-controls">
-          <!-- Help / Guide Button -->
-          <button class="action-btn" onclick="startTour()" title="Site Guide">
-            <span>💡 Quick Tour</span>
+          <!-- Help / Quick Tour Button -->
+          <button class="action-btn" onclick="startTour()" title="Quick Tour">
+            <span>📍 Quick Tour</span>
           </button>
 
           <!-- Dark/Light Theme Toggle -->
