@@ -1,0 +1,17 @@
+{
+  "2": {
+    "is_raining": false,
+    "status": "offline",
+    "last_updated": "12:07 AM"
+  },
+  "3": {
+    "is_raining": false,
+    "status": "offline",
+    "last_updated": "12:07 AM"
+  },
+  "1": {
+    "is_raining": false,
+    "status": "offline",
+    "last_updated": "12:07 AM"
+  }
+}
