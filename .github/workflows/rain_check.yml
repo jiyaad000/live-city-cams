@@ -5,6 +5,9 @@ on:
     - cron: '*/10 * * * *'  # Runs automatically every 10 minutes
   workflow_dispatch:        # Allows manual trigger from GitHub UI
 
+permissions:
+  contents: write           # Grants write permission to push rain_status.json
+
 jobs:
   detect-rain:
     runs-on: ubuntu-latest
