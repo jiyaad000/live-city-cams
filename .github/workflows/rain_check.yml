@@ -6,7 +6,7 @@ on:
   workflow_dispatch:        # Allows manual trigger from GitHub UI
 
 permissions:
-  contents: write           # Grants write permission to push rain_status.json
+  contents: write
 
 jobs:
   detect-rain:
@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y ffmpeg
-          pip install opencv-python-headless numpy yt-dlp google-genai
+          pip install streamlink opencv-python-headless numpy google-genai
 
       - name: Run AI Rain Check
         env:
