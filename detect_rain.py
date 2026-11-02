@@ -1,5 +1,4 @@
 import os
-import cv2
 import json
 import subprocess
 from datetime import datetime
@@ -16,27 +15,27 @@ CAMERAS_TO_ANALYZE = [
 
 OUTPUT_FILE = "rain_status.json"
 
-def get_stream_url(youtube_url):
+def capture_snapshot(youtube_url, output_path):
+    """Captures a single JPEG frame using ffmpeg directly (robust on Linux runners)."""
     try:
-        cmd = ["yt-dlp", "-g", youtube_url]
-        output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL).decode('utf-8').strip()
-        return output.splitlines()[0] if output else None
+        # Get stream URL from yt-dlp
+        cmd_url = ["yt-dlp", "-g", "-f", "best", youtube_url]
+        stream_url = subprocess.check_output(cmd_url, stderr=subprocess.DEVNULL).decode('utf-8').strip().splitlines()[0]
+        
+        # Use ffmpeg directly to grab 1 frame
+        cmd_ffmpeg = [
+            "ffmpeg", "-y",
+            "-i", stream_url,
+            "-vframes", "1",
+            "-q:v", "2",
+            output_path
+        ]
+        subprocess.run(cmd_ffmpeg, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
+        
+        return os.path.exists(output_path) and os.path.getsize(output_path) > 0
     except Exception as e:
-        print(f"Error fetching stream URL: {e}")
-        return None
-
-def capture_snapshot(stream_url, output_path):
-    cap = cv2.VideoCapture(stream_url)
-    if not cap.isOpened():
+        print(f"Error capturing snapshot: {e}")
         return False
-    
-    ret, frame = cap.read()
-    cap.release()
-    
-    if ret and frame is not None:
-        cv2.imwrite(output_path, frame)
-        return True
-    return False
 
 def check_rain_with_ai(image_path, camera_name):
     try:
@@ -71,12 +70,11 @@ def main():
 
     for cam in CAMERAS_TO_ANALYZE:
         print(f"Analyzing Camera {cam['id']}: {cam['name']} using Vision AI...")
-        stream_url = get_stream_url(cam['url'])
         snap_path = f"snap_cam_{cam['id']}.jpg"
 
-        if stream_url and capture_snapshot(stream_url, snap_path):
+        if capture_snapshot(cam['url'], snap_path):
             is_raining = check_rain_with_ai(snap_path, cam['name'])
-            status_report[cam['id']] = {
+            status_report[str(cam['id'])] = {
                 "is_raining": is_raining,
                 "status": "online",
                 "last_updated": timestamp
@@ -86,17 +84,18 @@ def main():
             if os.path.exists(snap_path):
                 os.remove(snap_path)
         else:
-            status_report[cam['id']] = {
+            print(f"  ❌ Failed to capture frame for Camera {cam['id']}")
+            status_report[str(cam['id'])] = {
                 "is_raining": False,
                 "status": "offline",
                 "last_updated": timestamp
             }
 
     # Mirror Cam 2's result over to Cam 1 (Genmiskih Fannu ~147m away)
-    if 2 in status_report:
-        status_report[1] = {
-            "is_raining": status_report[2]["is_raining"],
-            "status": status_report[2]["status"],
+    if "2" in status_report:
+        status_report["1"] = {
+            "is_raining": status_report["2"]["is_raining"],
+            "status": status_report["2"]["status"],
             "last_updated": timestamp
         }
 
