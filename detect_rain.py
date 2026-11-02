@@ -2,6 +2,7 @@ import os
 import json
 import subprocess
 from datetime import datetime
+import streamlink
 from google import genai
 from google.genai import types
 
@@ -15,53 +16,55 @@ CAMERAS_TO_ANALYZE = [
 
 OUTPUT_FILE = "rain_status.json"
 
-def capture_snapshot(youtube_url, output_path):
-    """Captures a snapshot frame via streamlink (bypasses YouTube datacenter IP blocks)."""
-    temp_ts = output_path + ".ts"
+def get_stream_url(youtube_url):
+    """Extract direct HLS stream URL using Streamlink Python API."""
     try:
-        if os.path.exists(temp_ts):
-            os.remove(temp_ts)
-        if os.path.exists(output_path):
-            os.remove(output_path)
+        streams = streamlink.streams(youtube_url)
+        if streams:
+            for quality in ['worst', '360p', '480p', '720p', 'best']:
+                if quality in streams:
+                    return streams[quality].url
+            return next(iter(streams.values())).url
+    except Exception as e:
+        print(f"  ❌ Streamlink resolution error for {youtube_url}: {e}")
+    return None
 
-        # 1. Grab 3 seconds of stream via streamlink
-        cmd_streamlink = [
-            "streamlink",
-            "--output", temp_ts,
-            "--force",
-            "--max-stream-duration", "3",
-            youtube_url,
-            "worst"
-        ]
-        res_sl = subprocess.run(cmd_streamlink, capture_output=True, text=True, timeout=30)
-        
-        if not os.path.exists(temp_ts) or os.path.getsize(temp_ts) == 0:
-            print(f"  ❌ streamlink error: {res_sl.stderr.strip()}")
-            return False
+def capture_snapshot(youtube_url, output_path):
+    """Captures a single snapshot frame directly from the HLS stream URL."""
+    stream_url = get_stream_url(youtube_url)
+    if not stream_url:
+        print(f"  ❌ Could not resolve stream URL for {youtube_url}")
+        return False
 
-        # 2. Extract 1 snapshot frame via ffmpeg
+    # Try FFmpeg extraction first
+    try:
         cmd_ffmpeg = [
             "ffmpeg", "-y",
-            "-i", temp_ts,
+            "-i", stream_url,
             "-vframes", "1",
             "-q:v", "2",
             output_path
         ]
-        res_ff = subprocess.run(cmd_ffmpeg, capture_output=True, text=True, timeout=20)
-        
-        if os.path.exists(temp_ts):
-            os.remove(temp_ts)
-
-        success = os.path.exists(output_path) and os.path.getsize(output_path) > 0
-        if not success:
-            print(f"  ❌ ffmpeg extraction error: {res_ff.stderr.strip()}")
-        return success
-
+        subprocess.run(cmd_ffmpeg, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15)
+        if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+            return True
     except Exception as e:
-        print(f"  ❌ Exception during snapshot capture: {e}")
-        if os.path.exists(temp_ts):
-            os.remove(temp_ts)
-        return False
+        print(f"  ⚠️ FFmpeg capture failed: {e}")
+
+    # Fallback to OpenCV
+    try:
+        import cv2
+        cap = cv2.VideoCapture(stream_url)
+        if cap.isOpened():
+            ret, frame = cap.read()
+            cap.release()
+            if ret and frame is not None:
+                cv2.imwrite(output_path, frame)
+                return True
+    except Exception as e:
+        print(f"  ⚠️ OpenCV capture failed: {e}")
+
+    return False
 
 def check_rain_with_ai(image_path, camera_name):
     try:
@@ -87,7 +90,7 @@ def check_rain_with_ai(image_path, camera_name):
         text_response = response.text.lower()
         return '"is_raining": true' in text_response or '"is_raining":true' in text_response
     except Exception as e:
-        print(f"AI Vision API error on {camera_name}: {e}")
+        print(f"  ❌ AI Vision API error on {camera_name}: {e}")
         return False
 
 def main():
@@ -110,6 +113,7 @@ def main():
             if os.path.exists(snap_path):
                 os.remove(snap_path)
         else:
+            print(f"  ❌ Failed to capture frame for Camera {cam['id']}")
             status_report[str(cam['id'])] = {
                 "is_raining": False,
                 "status": "offline",
