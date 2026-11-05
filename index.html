@@ -6,27 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0f19">
   <meta name="description" content="Live city cameras around Fuvahmulah with local weather and marine conditions.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://jiyaad000.github.io/live-city-cams/">
-
-  <meta property="og:title" content="Fuvahmulah City Cams — Live Views & Weather">
-  <meta property="og:description" content="Real-time live city cameras around Fuvahmulah with local weather and marine condition graphs.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://jiyaad000.github.io/live-city-cams/">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎥</text></svg>">
-
-  <link rel="preconnect" href="https://www.youtube-nocookie.com">
+  <link rel="preconnect" href="https://www.youtube.com">
   <link rel="preconnect" href="https://api.open-meteo.com">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
+    /* CSS Variables for Theme Switching */
     :root[data-theme="dark"] {
       --bg-color: #0b0f19;
       --card-bg: #131b2e;
@@ -65,6 +49,7 @@
       transition: background-color 0.3s, color 0.3s;
     }
     
+    /* Top Header Bar */
     .top-bar {
       max-width: 1400px;
       width: 100%;
@@ -114,6 +99,7 @@
       flex-wrap: wrap;
     }
     
+    /* Pulsing Glowing LIVE Badge */
     .live-badge {
       background: rgba(220, 38, 38, 0.15);
       border: 1px solid rgba(220, 38, 38, 0.6);
@@ -152,6 +138,7 @@
       font-size: 0.8rem;
     }
     
+    /* Header Right Section */
     .header-right-group {
       display: flex;
       align-items: center;
@@ -160,6 +147,7 @@
       position: relative;
     }
 
+    /* Clickable Weather Badge */
     .weather-badge {
       background: var(--bg-color);
       border: 1px solid var(--border-color);
@@ -195,6 +183,7 @@
       font-size: 0.8rem;
     }
 
+    /* Weather & Marine Popup Card */
     .weather-popup {
       display: none;
       position: absolute;
@@ -331,6 +320,7 @@
       color: var(--text-main);
     }
 
+    /* Controls & Buttons (Desktop Flex Fix) */
     .controls {
       display: flex;
       align-items: center;
@@ -384,6 +374,7 @@
       background: var(--btn-hover);
     }
 
+    /* Grid Layouts */
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -397,6 +388,7 @@
     .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
     .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 
+    /* Camera Cards */
     .card {
       background: var(--card-bg);
       border-radius: 12px;
@@ -407,6 +399,7 @@
       transition: all 0.3s ease;
     }
 
+    /* Focused View State */
     .card.theater-mode {
       grid-column: 1 / -1;
       max-width: 1000px;
@@ -435,7 +428,6 @@
       font-weight: 500;
       font-size: 0.95rem;
       min-width: 0;
-      flex-wrap: wrap;
     }
     .card-title-wrap a {
       color: var(--text-main);
@@ -457,6 +449,7 @@
       flex-shrink: 0;
     }
 
+    /* Status Dot Dynamic Colors */
     .status-dot {
       width: 8px;
       height: 8px;
@@ -509,10 +502,11 @@
       color: var(--text-main);
     }
     
+    /* Video Wrapper */
     .wrap {
       position: relative;
       width: 100%;
-      padding-top: 56.25%;
+      padding-top: 56.25%; /* 16:9 */
       background: #000;
       overflow: hidden;
       cursor: pointer;
@@ -527,6 +521,7 @@
       pointer-events: none;
     }
 
+    /* Play/Pause Button */
     .stream-overlay-btn {
       position: absolute;
       bottom: 12px;
@@ -557,6 +552,7 @@
       transform: scale(0.96);
     }
 
+    /* Offline Video Overlay Notice */
     .offline-overlay {
       position: absolute;
       top: 0;
@@ -577,6 +573,7 @@
       display: flex;
     }
 
+    /* Card Footer Description info */
     .card-footer {
       padding: 10px 16px;
       display: flex;
@@ -602,6 +599,7 @@
       text-decoration: underline;
     }
 
+    /* Custom True Fullscreen Overlay Modal */
     #fs-modal {
       position: fixed;
       top: 0;
@@ -670,68 +668,7 @@
       pointer-events: none;
     }
 
-    #map-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 99999;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-      padding: 16px;
-    }
-    .map-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 920px;
-      height: 82vh;
-      padding: 20px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      animation: scaleUp 0.2s ease-out;
-    }
-    .map-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
-    }
-    #map {
-      width: 100%;
-      flex: 1;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-    }
-    .leaflet-popup-content-wrapper {
-      background: #131b2e !important;
-      color: #f8fafc !important;
-      border: 1px solid #1e293b !important;
-      border-radius: 10px !important;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
-    }
-    .leaflet-popup-tip {
-      background: #131b2e !important;
-    }
-    .leaflet-control-layers {
-      background: #131b2e !important;
-      color: #f8fafc !important;
-      border: 1px solid #1e293b !important;
-      border-radius: 8px !important;
-    }
-    .leaflet-control-layers-base label {
-      color: #f8fafc !important;
-      font-size: 0.82rem;
-      cursor: pointer;
-    }
-
+    /* Timelapse Modal Styles */
     #timelapse-modal {
       display: none;
       position: fixed;
@@ -761,19 +698,43 @@
       transition: all 0.3s ease;
     }
 
+    /* True Native Fullscreen Container for Timelapse */
     #timelapse-card:-webkit-full-screen {
-      width: 100vw !important; height: 100vh !important; max-width: 100vw !important; max-height: 100vh !important;
-      border-radius: 0 !important; border: none !important; background: #000 !important; padding: 0 !important;
-      display: flex !important; flex-direction: column !important; justify-content: center !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: #000 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
     }
     #timelapse-card:fullscreen {
-      width: 100vw !important; height: 100vh !important; max-width: 100vw !important; max-height: 100vh !important;
-      border-radius: 0 !important; border: none !important; background: #000 !important; padding: 0 !important;
-      display: flex !important; flex-direction: column !important; justify-content: center !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: #000 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
     }
-    #timelapse-card:-webkit-full-screen .timelapse-header,
-    #timelapse-card:fullscreen .timelapse-header { display: none !important; }
 
+    /* Hide header when in fullscreen */
+    #timelapse-card:-webkit-full-screen .timelapse-header {
+      display: none !important;
+    }
+    #timelapse-card:fullscreen .timelapse-header {
+      display: none !important;
+    }
+
+    /* Cropping overlay wrapper for timelapse video */
     .timelapse-wrap {
       position: relative;
       width: 100%;
@@ -782,11 +743,20 @@
       border-radius: 8px;
       overflow: hidden;
     }
-    #timelapse-card:-webkit-full-screen .timelapse-wrap,
+    #timelapse-card:-webkit-full-screen .timelapse-wrap {
+      width: 100% !important;
+      height: 100% !important;
+      padding-top: 0 !important;
+      border-radius: 0 !important;
+    }
     #timelapse-card:fullscreen .timelapse-wrap {
-      width: 100% !important; height: 100% !important; padding-top: 0 !important; border-radius: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding-top: 0 !important;
+      border-radius: 0 !important;
     }
 
+    /* Crops the top/bottom YouTube overlay bar */
     .timelapse-wrap iframe {
       position: absolute;
       top: -70px;
@@ -796,9 +766,13 @@
       border: 0;
     }
 
+    /* Coming Soon Black Screen Placeholder */
     .timelapse-coming-soon {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: #000;
       display: none;
       flex-direction: column;
@@ -809,101 +783,241 @@
       text-align: center;
       padding: 20px;
     }
-    .timelapse-coming-soon.show { display: flex; }
-    .coming-soon-icon { font-size: 2.5rem; animation: pulse-icon 2s infinite ease-in-out; }
+    .timelapse-coming-soon.show {
+      display: flex;
+    }
+    .coming-soon-icon {
+      font-size: 2.5rem;
+      animation: pulse-icon 2s infinite ease-in-out;
+    }
     @keyframes pulse-icon {
       0%, 100% { transform: scale(1); opacity: 0.7; }
       50% { transform: scale(1.1); opacity: 1; }
     }
-    .coming-soon-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); }
-    .coming-soon-text { font-size: 0.85rem; color: var(--text-sub); }
+    .coming-soon-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .coming-soon-text {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
 
+    /* Floating Bottom-Right Fullscreen Button with Auto-Hide */
     .timelapse-floating-controls {
       position: absolute;
-      bottom: 16px; right: 16px;
-      display: flex; align-items: center; gap: 8px; z-index: 20; opacity: 0.85;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 20;
+      opacity: 0.85;
       transition: opacity 0.3s ease;
     }
-    .timelapse-wrap.idle .timelapse-floating-controls { opacity: 0; pointer-events: none; }
-    .timelapse-floating-controls:hover { opacity: 1; }
+    .timelapse-wrap.idle .timelapse-floating-controls {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .timelapse-floating-controls:hover {
+      opacity: 1;
+    }
     .tl-float-btn {
       background: rgba(15, 23, 42, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
-      width: 36px; height: 36px; border-radius: 8px;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      backdrop-filter: blur(4px); transition: background 0.2s;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
     }
-    .tl-float-btn:hover { background: rgba(30, 41, 59, 0.95); }
+    .tl-float-btn:hover {
+      background: rgba(30, 41, 59, 0.95);
+    }
 
-    .timelapse-header { display: flex; justify-content: space-between; align-items: center; }
+    .timelapse-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     .timelapse-title a {
-      font-size: 1rem; font-weight: 600; color: var(--text-main); text-decoration: none;
-      display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
     }
-    .timelapse-title a:hover { color: #38bdf8; text-decoration: underline; }
-    .timelapse-header-actions { display: flex; align-items: center; gap: 8px; }
-    .timelapse-btn {
-      background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-main);
-      width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+    .timelapse-title a:hover {
+      color: #38bdf8;
+      text-decoration: underline;
     }
-    .timelapse-btn:hover { background: var(--btn-hover); }
 
-    #tour-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.75); z-index: 99999;
-      display: none; justify-content: center; align-items: center; padding: 16px;
-      backdrop-filter: blur(3px); transition: align-items 0.3s ease;
+    .timelapse-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    #tour-overlay.active { display: flex; }
-    #tour-overlay.mobile-bottom { align-items: flex-end !important; padding-bottom: 70px; }
+    .timelapse-btn {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .timelapse-btn:hover {
+      background: var(--btn-hover);
+    }
+
+    /* Onboarding Tour Overlay Styles */
+    #tour-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 99999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      backdrop-filter: blur(3px);
+      transition: align-items 0.3s ease;
+    }
+    #tour-overlay.active {
+      display: flex;
+    }
+    #tour-overlay.mobile-bottom {
+      align-items: flex-end !important;
+      padding-bottom: 70px;
+    }
 
     .tour-card {
-      background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
-      width: 100%; max-width: 440px; padding: 24px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-      display: flex; flex-direction: column; gap: 16px; animation: scaleUp 0.25s ease-out;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      padding: 24px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: scaleUp 0.25s ease-out;
     }
     @keyframes scaleUp {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
-    .tour-header { display: flex; justify-content: space-between; align-items: center; }
-    .tour-step-indicator { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: #38bdf8; text-transform: uppercase; }
-    .tour-title { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
-    .tour-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
-    .tour-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 16px; }
-    .tour-skip { background: transparent; border: none; color: var(--text-sub); font-size: 0.85rem; cursor: pointer; transition: color 0.2s; }
-    .tour-skip:hover { color: var(--text-main); }
-    .tour-btns { display: flex; gap: 10px; }
-    .tour-btn-back, .tour-btn-next { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .tour-btn-back { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-main); }
-    .tour-btn-back:hover { background: var(--btn-hover); }
-    .tour-btn-next { background: #0284c7; border: 1px solid #0284c7; color: #fff; }
-    .tour-btn-next:hover { background: #0369a1; }
-    .tour-highlight { position: relative; z-index: 100000 !important; box-shadow: 0 0 0 4px #38bdf8, 0 0 20px rgba(56, 189, 248, 0.5) !important; border-radius: 8px; transition: box-shadow 0.3s ease; }
-
-    #legal-modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8); z-index: 99999; align-items: center; justify-content: center;
-      backdrop-filter: blur(4px); padding: 16px;
+    .tour-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .legal-card {
-      background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
-      width: 100%; max-width: 650px; max-height: 85vh; padding: 24px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-      display: flex; flex-direction: column; gap: 16px; overflow-y: auto; animation: scaleUp 0.2s ease-out;
+    .tour-step-indicator {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #38bdf8;
+      text-transform: uppercase;
     }
-    .legal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
-    .legal-body { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; display: flex; flex-direction: column; gap: 12px; }
-    .legal-body h4 { color: var(--text-main); font-size: 0.95rem; margin-top: 6px; }
-    .legal-body ul { padding-left: 20px; }
-    .legal-body code { background: var(--bg-color); padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #38bdf8; }
+    .tour-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .tour-body {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .tour-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+    }
+    .tour-skip {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .tour-skip:hover {
+      color: var(--text-main);
+    }
+    .tour-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .tour-btn-back, .tour-btn-next {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .tour-btn-back {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+    .tour-btn-back:hover {
+      background: var(--btn-hover);
+    }
+    .tour-btn-next {
+      background: #0284c7;
+      border: 1px solid #0284c7;
+      color: #fff;
+    }
+    .tour-btn-next:hover {
+      background: #0369a1;
+    }
 
+    /* Highlight class for active tour target */
+    .tour-highlight {
+      position: relative;
+      z-index: 100000 !important;
+      box-shadow: 0 0 0 4px #38bdf8, 0 0 20px rgba(56, 189, 248, 0.5) !important;
+      border-radius: 8px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    /* Touch, focus & motion polish */
     button, .weather-badge, .wrap { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
     :focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
-    .offline-retry { margin-top: 4px; background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
+    .offline-retry {
+      margin-top: 4px;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
     .offline-retry:hover { background: var(--btn-hover); }
-
+    /* Touch screens have no hover: keep Play/Pause visible and buttons finger-sized */
     @media (hover: none) {
       .stream-overlay-btn { opacity: 1; }
       .icon-btn { width: 40px; height: 40px; }
@@ -912,24 +1026,96 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
 
+    /* Footer */
     footer {
-      max-width: 1400px; width: 100%; margin: 30px auto 0 auto; display: flex; flex-direction: column; gap: 6px; color: var(--text-sub); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 16px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 30px auto 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: var(--text-sub);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
     }
-    .footer-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-    .footer-bottom { font-size: 0.75rem; opacity: 0.8; text-align: center; }
-    .council-link { color: #38bdf8; text-decoration: none; transition: color 0.2s; }
-    .council-link:hover { text-decoration: underline; }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      text-align: center;
+    }
+    .council-link {
+      color: #38bdf8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .council-link:hover {
+      text-decoration: underline;
+    }
 
+    /* ========================================== */
+    /* 📱 RESPONSIVE MOBILE FIXES (@media <= 768px) */
+    /* ========================================== */
     @media (max-width: 768px) {
-      body { padding: 10px; padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); padding-bottom: max(10px, env(safe-area-inset-bottom)); }
-      .top-bar { padding: 12px; flex-direction: column; align-items: stretch; gap: 12px; }
-      .brand-group { width: 100%; justify-content: space-between; }
-      .header-right-group { width: 100%; flex-direction: column; align-items: stretch; gap: 10px; }
-      .weather-badge { width: 100%; justify-content: space-between; }
-      .controls { width: 100%; display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; }
-      #tour-step-controls { display: flex; align-items: center; gap: 6px; flex: 1; }
-      .action-btn { flex: 1; justify-content: center; padding: 8px 6px; font-size: 0.8rem; white-space: nowrap; }
-      .layout-btn:nth-child(3) { display: none !important; }
+      body {
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+      .top-bar {
+        padding: 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .brand-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .header-right-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .weather-badge {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .controls {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap; /* Keeps all buttons in 1 single row on mobile */
+      }
+      #tour-step-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+      }
+      .action-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 6px;
+        font-size: 0.8rem;
+        white-space: nowrap; /* Prevents button text from wrapping */
+      }
+      
+      /* Hide the 3rd column layout button on mobile */
+      .layout-btn:nth-child(3) {
+        display: none !important;
+      }
+
       .grid { gap: 14px; }
       .grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
       .card.theater-mode { max-width: 100%; }
@@ -942,14 +1128,38 @@
       .weather-popup { width: 100%; max-width: none; padding: 16px; }
       .popup-top-section { flex-direction: column; gap: 14px; }
       .popup-left { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; }
-      .card-footer { padding: 8px 12px; font-size: 0.72rem; }
+      .card-footer {
+        padding: 8px 12px;
+        font-size: 0.72rem;
+      }
     }
 
     .rotate-hint {
-      display: none; width: 100%; align-items: center; justify-content: space-between; gap: 10px; font-size: 0.8rem; color: var(--text-muted); background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 10px;
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 10px;
     }
-    .rotate-hint button { background: transparent; border: none; color: var(--text-muted); font-size: 1rem; padding: 4px 8px; cursor: pointer; }
-    @media (max-width: 600px) and (orientation: portrait) { .rotate-hint.show { display: flex; } }
+    .rotate-hint button {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) and (orientation: portrait) {
+      .rotate-hint.show { display: flex; }
+    }
+
+    /* Landscape phones: compact tour card so it leaves room for the highlighted element */
     @media (max-height: 500px) {
       #tour-overlay { padding: 8px; }
       #tour-overlay.mobile-bottom { padding-bottom: 8px; }
@@ -958,6 +1168,8 @@
       .tour-body { font-size: 0.8rem; line-height: 1.4; }
       .tour-footer { margin-top: 0; padding-top: 10px; }
     }
+
+    /* Layout selector: hidden on portrait phones, 1 or 2 columns on landscape phones */
     @media (max-width: 600px) {
       .layout-btns { display: none; }
       .grid, .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
@@ -970,11 +1182,12 @@
 </head>
 <body>
 
+  <!-- Top Navigation Header -->
   <header class="top-bar">
     <div class="brand-group">
       <div class="brand">
         <div class="brand-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 002-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         </div>
         <div class="brand-text">
           <h1>
@@ -987,12 +1200,14 @@
     </div>
     
     <div class="header-right-group">
+      <!-- Clickable Weather Badge -->
       <div class="weather-badge" id="weatherWidget" onclick="toggleWeatherPopup(event)" title="Click for Detailed Forecast & Marine Info">
         <div class="weather-info" id="weatherContent">🌤️ Loading...</div>
         <div class="weather-divider"></div>
         <div class="time-info" id="timeContent">⏰ --:--:--</div>
       </div>
 
+      <!-- Weather & Marine Popup Card -->
       <div class="weather-popup" id="weatherPopup" onclick="event.stopPropagation()">
         <div class="popup-top-section">
           <div class="popup-left">
@@ -1020,6 +1235,7 @@
           <div class="popup-right" id="forecastGrid"></div>
         </div>
 
+        <!-- Marine & Tide Info Bar -->
         <div class="marine-bar" id="marineBar">
           <div class="marine-item">🌊 Sea Level: <strong id="marineSeaLevel">--</strong></div>
           <div class="marine-item">🏄 Wave Height: <strong id="marineWaveHeight">--</strong></div>
@@ -1028,17 +1244,18 @@
       </div>
 
       <div class="controls">
-        <button class="action-btn" onclick="openMapModal()" title="View Interactive Map">
-          <span>🗺️ Map View</span>
-        </button>
-
         <div id="tour-step-controls">
+          <!-- Help / Quick Tour Button -->
           <button class="action-btn" onclick="startTour()" title="Quick Tour">
             <span>📍 Quick Tour</span>
           </button>
+
+          <!-- Dark/Light Theme Toggle -->
           <button class="action-btn" onclick="toggleTheme()" title="Toggle Theme">
             <span id="themeIcon">☀️</span>
           </button>
+
+          <!-- Layout Selector -->
           <div class="layout-btns" id="layoutBtnsContainer">
             <button class="layout-btn" onclick="setLayout(1)" title="1 Column Layout">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/></svg>
@@ -1052,6 +1269,7 @@
           </div>
         </div>
 
+        <!-- Refresh Button -->
         <button class="action-btn" onclick="location.reload()">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           Refresh All
@@ -1059,24 +1277,17 @@
       </div>
     </div>
 
+    <!-- One-time tip for portrait phones, where the layout selector is hidden -->
     <div class="rotate-hint" id="rotateHint">
       <span>💡 Tip: turn your phone sideways to view two cameras side by side.</span>
       <button onclick="dismissRotateHint()" aria-label="Dismiss tip">✕</button>
     </div>
   </header>
 
+  <!-- Camera Grid (Dynamically Populated) -->
   <main class="grid" id="camGrid"></main>
 
-  <div id="map-modal" onclick="closeMapModal()">
-    <div class="map-card" onclick="event.stopPropagation()">
-      <div class="map-header">
-        <h3 style="font-size: 1.1rem; color: var(--text-main);">📍 Fuvahmulah Live Camera Map</h3>
-        <button onclick="closeMapModal()" class="timelapse-btn" title="Close">✕</button>
-      </div>
-      <div id="map"></div>
-    </div>
-  </div>
-
+  <!-- Simple Timelapse Modal -->
   <div id="timelapse-modal" onclick="closeTimelapse()">
     <div class="timelapse-card" id="timelapse-card" onclick="event.stopPropagation()">
       <div class="timelapse-header">
@@ -1086,16 +1297,20 @@
           </a>
         </div>
         <div class="timelapse-header-actions">
-          <button class="timelapse-btn" onclick="closeTimelapse()" title="Close">✕</button>
+          <button class="timelapse-btn" onclick="closeTimelapse()" title="Close">
+            ✕
+          </button>
         </div>
       </div>
       <div class="timelapse-wrap" id="timelapse-wrap">
         <iframe id="timelapse-iframe" allowfullscreen></iframe>
+        <!-- Coming Soon Placeholder Screen -->
         <div class="timelapse-coming-soon" id="timelapseComingSoon">
           <div class="coming-soon-icon">⏳</div>
           <div class="coming-soon-title">Time-lapse Coming Soon</div>
           <div class="coming-soon-text">Recording and processing footage for this camera. Check back later!</div>
         </div>
+        <!-- Floating Bottom-Right Fullscreen Button with Auto-Hide -->
         <div class="timelapse-floating-controls" id="timelapseControls">
           <button class="tl-float-btn" onclick="toggleTimelapseFullscreen()" title="Toggle Fullscreen">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
@@ -1105,6 +1320,7 @@
     </div>
   </div>
 
+  <!-- Custom True Fullscreen Overlay Modal -->
   <div id="fs-modal">
     <div id="fs-wrap" onclick="togglePlayPause(activeFsCam)">
       <div id="player-fs"></div>
@@ -1119,10 +1335,11 @@
     </div>
   </div>
 
+  <!-- Interactive Onboarding Tour Modal -->
   <div id="tour-overlay">
     <div class="tour-card">
       <div class="tour-header">
-        <span class="tour-step-indicator" id="tourIndicator">Step 1 of 6</span>
+        <span class="tour-step-indicator" id="tourIndicator">Step 1 of 5</span>
         <button class="tour-skip" onclick="endTour()">Skip Tour</button>
       </div>
       <div class="tour-title" id="tourTitle">Welcome to Fuvahmulah City Cams!</div>
@@ -1137,73 +1354,23 @@
     </div>
   </div>
 
-  <div id="cam-weather-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 16px;" onclick="closeCamWeatherModal()">
-    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; width: 100%; max-width: 560px; padding: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 14px; animation: scaleUp 0.2s ease-out;" onclick="event.stopPropagation()">
-      
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-        <div>
-          <h3 id="camModalTitle" style="font-size: 1.05rem; font-weight: 600; color: var(--text-main);">Camera Weather Details</h3>
-          <span id="camModalUpdated" style="font-size: 0.75rem; color: var(--text-sub); display: block; margin-top: 2px;">Last updated: Loading...</span>
-        </div>
-        <button onclick="closeCamWeatherModal()" style="background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-main); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
-      </div>
-
-      <div id="camModalContent" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem; color: var(--text-muted);">
-        Loading hyper-local data...
-      </div>
-
-      <div id="graphSection" style="margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--border-color);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span id="graphTitle" style="font-size: 0.84rem; font-weight: 600; color: #38bdf8;">📈 24-Hour Weather Condition Trend</span>
-          <span style="font-size: 0.72rem; color: var(--text-sub);">Click any box to switch metric</span>
-        </div>
-        <div style="position: relative; height: 180px; width: 100%; min-height: 180px;">
-          <canvas id="camChart"></canvas>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div id="legal-modal" onclick="closeLegalModal()">
-    <div class="legal-card" onclick="event.stopPropagation()">
-      <div class="legal-header">
-        <h3 style="font-size: 1.1rem; color: var(--text-main);">Privacy Policy & Terms of Service</h3>
-        <button onclick="closeLegalModal()" class="timelapse-btn" title="Close">✕</button>
-      </div>
-      <div class="legal-body">
-        <h4>Privacy Policy & Local Storage</h4>
-        <p>This web dashboard operates strictly as a static front-end application hosted via GitHub Pages.</p>
-        <ul>
-          <li><strong>Local Browser Storage:</strong> We use browser <code>localStorage</code> exclusively for non-tracking functional preferences: remembering your theme choice (Light/Dark mode), grid layout preference (1, 2, or 3 columns), and whether you have completed or dismissed tips and tours.</li>
-          <li><strong>Third-Party Data & Embeds:</strong> Live camera feeds are loaded using YouTube's privacy-enhanced mode (<code>youtube-nocookie.com</code>). Weather and marine metrics are dynamically retrieved from standard Open-Meteo public APIs. These external third-party services may log standard network requests (such as your IP address) to serve video streams and weather responses.</li>
-        </ul>
-
-        <h4>Terms of Service & Liability Disclaimer</h4>
-        <p>This dashboard is an independent community project developed for public viewing and informational purposes.</p>
-        <ul>
-          <li><strong>Non-Affiliation:</strong> This dashboard is independent and is not officially affiliated with, operated by, or endorsed by the Fuvahmulah City Council, Dhiraagu, or Open-Meteo. All camera feeds belong to their respective original owners.</li>
-          <li><strong>As-Is Basis:</strong> All camera video streams, weather forecasts, marine heights, and rain metrics are provided "as-is" without representations or warranties regarding uptime, operational availability, or accuracy.</li>
-        </ul>
-
-        <h4>Contact & Support</h4>
-        <p>For feedback, stream updates, or removal requests, please open an issue on our <a href="https://github.com/jiyaad000/live-city-cams/issues" target="_blank" class="council-link">GitHub Repository</a>.</p>
-      </div>
-    </div>
-  </div>
-
+  <!-- Footer -->
   <footer>
     <div class="footer-top">
       <span>Public Live Stream Cameras by <a href="https://fuvahmulah.gov.mv/en/media/city-cam" target="_blank" class="council-link">Fuvahmulah City Council</a> & Dhiraagu</span>
       <span>Hosted via GitHub Pages</span>
     </div>
     <div class="footer-bottom">
-      Independent Community Dashboard • Not affiliated with or endorsed by Fuvahmulah City Council or Dhiraagu. • <a href="javascript:void(0)" onclick="openLegalModal()" class="council-link">Privacy & Terms</a>
+      Independent Community Dashboard • Not affiliated with or endorsed by Fuvahmulah City Council or Dhiraagu.
     </div>
   </footer>
 
+  <!-- Load YouTube IFrame Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
+    // ==========================================
+    // 🎥 CAMERA FEEDS CONFIGURATION ARRAY
+    // ==========================================
     const cameras = [
       {
         id: 1,
@@ -1212,9 +1379,7 @@
         videoId: "HMmVUTWDN3s",
         mapLink: "https://maps.app.goo.gl/ZorTSqK7FvrwesFy7",
         timelapseId: "zNL2u_I0xfc",
-        timelapseLink: "https://youtu.be/zNL2u_I0xfc",
-        lat: -0.279349,
-        lon: 73.414728
+        timelapseLink: "https://youtu.be/zNL2u_I0xfc"
       },
       {
         id: 2,
@@ -1223,9 +1388,7 @@
         videoId: "dJ3lcom_xk8",
         mapLink: "https://maps.app.goo.gl/W3pUTqwt4kksLuyAA",
         timelapseId: "hm9YTv6Uxu4",
-        timelapseLink: "https://youtu.be/hm9YTv6Uxu4",
-        lat: -0.280351,
-        lon: 73.415543
+        timelapseLink: "https://youtu.be/hm9YTv6Uxu4"
       },
       {
         id: 3,
@@ -1234,15 +1397,17 @@
         videoId: "GW5qgbT80oA",
         mapLink: "https://maps.app.goo.gl/5hqgLuZoBj4MMHin9",
         timelapseId: "y6amlgzZGjg",
-        timelapseLink: "https://youtu.be/y6amlgzZGjg",
-        lat: -0.310459,
-        lon: 73.439850
+        timelapseLink: "https://youtu.be/y6amlgzZGjg"
       }
     ];
 
     const PAUSE_BTN_HTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause`;
+
+    // ------------------------------------------------------------------
+    // Smart playback: pause cameras that are off-screen or in a hidden tab
+    // (saves data and battery) and jump back to the live edge on resume.
+    // ------------------------------------------------------------------
     const PLAY_BTN_HTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play`;
-    
     const userPaused = {}, autoPaused = {}, pausedAt = {}, cardVisible = {}, retryTimers = {};
 
     function setPlayBtn(id, playing) {
@@ -1277,6 +1442,7 @@
       setPlayBtn(id, true);
     }
 
+    // Dynamically generate camera cards on page load
     function renderCameraGrid() {
       const grid = document.getElementById('camGrid');
       grid.innerHTML = '';
@@ -1295,9 +1461,6 @@
                   <span>${cam.title}</span>
                   <span class="map-icon">📍</span>
                 </a>
-                <span id="rain-badge-${cam.id}" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; margin-left: 6px; font-weight: 600; background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3);">
-                  Checking rain...
-                </span>
               </div>
               <div class="header-right" ${isFirst ? 'id="tour-step-timelapse"' : ''}>
                 <button class="icon-btn" onclick="openTimelapseForCam(${cam.id})" title="View Time-lapse" aria-label="View time-lapse for ${cam.title}">
@@ -1335,376 +1498,6 @@
     }
     renderCameraGrid();
 
-    let mapInstance = null;
-
-    function openMapModal() {
-      const modal = document.getElementById('map-modal');
-      modal.style.display = 'flex';
-
-      if (!mapInstance) {
-        const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          maxNativeZoom: 17,
-          maxZoom: 19,
-          attribution: 'Tiles &copy; Esri'
-        });
-
-        const darkLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-          maxZoom: 16,
-          attribution: 'Tiles &copy; Esri'
-        });
-
-        const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
-        });
-
-        mapInstance = L.map('map', {
-          center: [-0.295, 73.425],
-          zoom: 13,
-          layers: [satelliteLayer]
-        });
-
-        const baseMaps = {
-          "🛰️ Satellite": satelliteLayer,
-          "🌙 Dark Mode": darkLayer,
-          "🗺️ Streets": streetLayer
-        };
-        L.control.layers(baseMaps, null, { position: 'topright' }).addTo(mapInstance);
-
-        cameras.forEach(cam => {
-          if (cam.lat && cam.lon) {
-            const marker = L.marker([cam.lat, cam.lon]).addTo(mapInstance);
-            const popupHTML = `
-              <div style="font-family: system-ui; text-align: center; padding: 4px; min-width: 150px;">
-                <strong style="font-size: 0.95rem; color: #f8fafc; display: block; margin-bottom: 4px;">📹 ${cam.title}</strong>
-                <span style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 10px;">${cam.subtitle}</span>
-                <button onclick="closeMapModal(); toggleTheater('card-${cam.id}')" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; width: 100%;">
-                  🔍 Focus Feed
-                </button>
-              </div>
-            `;
-            marker.bindPopup(popupHTML);
-          }
-        });
-      }
-
-      setTimeout(() => {
-        mapInstance.invalidateSize();
-      }, 200);
-    }
-
-    function closeMapModal() {
-      document.getElementById('map-modal').style.display = 'none';
-    }
-
-    const cameraWeatherData = {};
-    let activeCamChart = null;
-    let currentGraphMetric = 'condition';
-
-    async function checkLocalRainForCameras() {
-      cameras.forEach(async (cam) => {
-        const badge = document.getElementById(`rain-badge-${cam.id}`);
-        if (!badge || !cam.lat || !cam.lon) return;
-
-        badge.style.cursor = 'pointer';
-        badge.title = 'Click to view micro-location weather & graphs';
-
-        try {
-          const url = `https://api.open-meteo.com/v1/forecast?latitude=${cam.lat}&longitude=${cam.lon}&current=temperature_2m,relative_humidity_2m,precipitation,rain,showers,surface_pressure,wind_speed_10m,wind_direction_10m,weather_code&hourly=temperature_2m,relative_humidity_2m,precipitation,rain,showers,surface_pressure,wind_speed_10m,weather_code,cloud_cover&forecast_days=1&timezone=auto`;
-          const response = await fetch(url);
-          const data = await response.json();
-          
-          if (!data || !data.current) throw new Error("Invalid API response");
-
-          const current = data.current;
-          const rainNow = current.rain || 0;
-          const showerNow = current.showers || 0;
-          const precipNow = current.precipitation || (rainNow + showerNow);
-          
-          const currentRainRate = Math.round(precipNow * 10) / 10;
-          const wCode = current.weather_code || 0;
-
-          const isRaining = currentRainRate > 0 || (wCode >= 50 && wCode <= 99);
-
-          const updateDate = current.time ? new Date(current.time) : new Date();
-          const formattedTime = updateDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-
-          const weatherInfo = describeWeather(wCode);
-
-          cameraWeatherData[cam.id] = {
-            id: cam.id,
-            title: cam.title,
-            temp: current.temperature_2m !== undefined ? `${Math.round(current.temperature_2m)}°C` : 'N/A',
-            humidity: current.relative_humidity_2m !== undefined ? `${current.relative_humidity_2m}%` : 'N/A',
-            wind: current.wind_speed_10m !== undefined ? `${current.wind_speed_10m} km/h` : 'N/A',
-            windDir: current.wind_direction_10m !== undefined ? `${current.wind_direction_10m}°` : 'N/A',
-            pressure: current.surface_pressure !== undefined ? `${Math.round(current.surface_pressure)} hPa` : 'N/A',
-            rainAmount: currentRainRate,
-            isRaining: isRaining,
-            conditionText: isRaining ? `🌧️ ${weatherInfo.condition} (${currentRainRate} mm/h)` : `${weatherInfo.icon} ${weatherInfo.condition}`,
-            lastUpdated: formattedTime,
-            hourlyTime: data.hourly ? data.hourly.time.map(t => new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })) : [],
-            hourlyTemp: data.hourly ? data.hourly.temperature_2m : [],
-            hourlyHumidity: data.hourly ? data.hourly.relative_humidity_2m : [],
-            hourlyRain: data.hourly ? data.hourly.precipitation : [],
-            hourlyWind: data.hourly ? data.hourly.wind_speed_10m : [],
-            hourlyPressure: data.hourly ? data.hourly.surface_pressure : [],
-            hourlyWeatherCode: data.hourly ? data.hourly.weather_code : [],
-            hourlyCloudCover: data.hourly ? data.hourly.cloud_cover : []
-          };
-
-          if (isRaining) {
-            badge.textContent = `🌧️ Rain (${currentRainRate} mm/h)`;
-            badge.style.background = 'rgba(56, 189, 248, 0.2)';
-            badge.style.color = '#38bdf8';
-            badge.style.border = '1px solid #38bdf8';
-          } else {
-            badge.textContent = '☀️ Dry';
-            badge.style.background = 'rgba(148, 163, 184, 0.15)';
-            badge.style.color = '#94a3b8';
-            badge.style.border = '1px solid rgba(148, 163, 184, 0.3)';
-          }
-
-          badge.onclick = (e) => {
-            e.stopPropagation();
-            openCamWeatherModal(cam.id);
-          };
-
-        } catch (err) {
-          if (badge) badge.textContent = '☀️ Dry';
-        }
-      });
-    }
-
-    function openCamWeatherModal(camId) {
-      const details = cameraWeatherData[camId];
-      const modal = document.getElementById('cam-weather-modal');
-      const title = document.getElementById('camModalTitle');
-      const updatedEl = document.getElementById('camModalUpdated');
-
-      if (!details || !modal) return;
-
-      title.textContent = `📍 ${details.title} Weather`;
-      if (updatedEl) updatedEl.textContent = `🕒 Last updated: ${details.lastUpdated || 'Just now'}`;
-
-      renderCamModalBoxes(camId, currentGraphMetric);
-      renderCamGraph(camId, currentGraphMetric);
-
-      modal.style.display = 'flex';
-    }
-
-    function renderCamModalBoxes(camId, activeMetric) {
-      const details = cameraWeatherData[camId];
-      const content = document.getElementById('camModalContent');
-      if (!details || !content) return;
-
-      const getCardStyle = (metric) => {
-        const isActive = activeMetric === metric;
-        return `
-          background: ${isActive ? 'rgba(56, 189, 248, 0.12)' : 'var(--bg-color)'};
-          border: 1px solid ${isActive ? '#38bdf8' : 'var(--border-color)'};
-          padding: 10px 12px;
-          border-radius: 10px;
-          display: flex;
-          flex-direction: column;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          box-shadow: ${isActive ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none'};
-        `;
-      };
-
-      content.innerHTML = `
-        <div style="${getCardStyle('condition')}" onclick="switchCamGraph('${camId}', 'condition')" title="Click to view 24h Weather Condition & Cloudiness graph">
-          <span style="font-size: 0.75rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Condition</span>
-            <span style="font-size: 0.68rem; color: #38bdf8;">📈 Graph</span>
-          </span>
-          <span style="font-weight: 700; font-size: 1.05rem; color: ${details.isRaining ? '#38bdf8' : '#10b981'}; margin-top: 4px;">
-            ${details.conditionText}
-          </span>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 2px;">
-          <div style="${getCardStyle('temp')}" onclick="switchCamGraph('${camId}', 'temp')" title="Click to view 24h Temperature graph">
-            <span style="font-size: 0.72rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center;">
-              <span>Temperature</span>
-              <span style="font-size: 0.65rem; color: #38bdf8;">📈 Graph</span>
-            </span>
-            <strong style="font-size: 1.05rem; color: var(--text-main); margin-top: 2px;">${details.temp}</strong>
-          </div>
-
-          <div style="${getCardStyle('humidity')}" onclick="switchCamGraph('${camId}', 'humidity')" title="Click to view 24h Humidity graph">
-            <span style="font-size: 0.72rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center;">
-              <span>Humidity</span>
-              <span style="font-size: 0.65rem; color: #38bdf8;">📈 Graph</span>
-            </span>
-            <strong style="font-size: 1.05rem; color: var(--text-main); margin-top: 2px;">${details.humidity}</strong>
-          </div>
-
-          <div style="${getCardStyle('rain')}" onclick="switchCamGraph('${camId}', 'rain')" title="Click to view 24h Precipitation graph">
-            <span style="font-size: 0.72rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center;">
-              <span>Precipitation</span>
-              <span style="font-size: 0.65rem; color: #38bdf8;">📈 Graph</span>
-            </span>
-            <strong style="font-size: 1.05rem; color: var(--text-main); margin-top: 2px;">${details.rainAmount} mm/h</strong>
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <div style="${getCardStyle('wind')}" onclick="switchCamGraph('${camId}', 'wind')" title="Click to view 24h Wind Speed graph">
-            <span style="font-size: 0.72rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center;">
-              <span>Wind Speed & Dir</span>
-              <span style="font-size: 0.65rem; color: #38bdf8;">📈 Graph</span>
-            </span>
-            <strong style="font-size: 1.05rem; color: var(--text-main); margin-top: 2px;">${details.wind} (${details.windDir})</strong>
-          </div>
-
-          <div style="${getCardStyle('pressure')}" onclick="switchCamGraph('${camId}', 'pressure')" title="Click to view 24h Surface Pressure graph">
-            <span style="font-size: 0.72rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center;">
-              <span>Pressure</span>
-              <span style="font-size: 0.65rem; color: #38bdf8;">📈 Graph</span>
-            </span>
-            <strong style="font-size: 1.05rem; color: var(--text-main); margin-top: 2px;">${details.pressure}</strong>
-          </div>
-        </div>
-      `;
-    }
-
-    function switchCamGraph(camId, metric) {
-      currentGraphMetric = metric;
-      renderCamModalBoxes(camId, metric);
-      renderCamGraph(camId, metric);
-    }
-
-    function renderCamGraph(camId, metric) {
-      const details = cameraWeatherData[camId];
-      if (!details || !details.hourlyTime || details.hourlyTime.length === 0) return;
-
-      const canvas = document.getElementById('camChart');
-      const graphTitle = document.getElementById('graphTitle');
-      if (!canvas || !graphTitle) return;
-
-      let label = 'Condition / Cloud Cover';
-      let unit = '%';
-      let dataPoints = details.hourlyCloudCover;
-      let color = '#a855f7';
-      let chartType = 'line';
-
-      if (metric === 'temp') {
-        label = 'Temperature';
-        unit = '°C';
-        dataPoints = details.hourlyTemp;
-        color = '#38bdf8';
-      } else if (metric === 'humidity') {
-        label = 'Humidity';
-        unit = '%';
-        dataPoints = details.hourlyHumidity;
-        color = '#06b6d4';
-      } else if (metric === 'rain') {
-        label = 'Precipitation';
-        unit = ' mm';
-        dataPoints = details.hourlyRain;
-        color = '#60a5fa';
-        chartType = 'bar';
-      } else if (metric === 'wind') {
-        label = 'Wind Speed';
-        unit = ' km/h';
-        dataPoints = details.hourlyWind;
-        color = '#f59e0b';
-      } else if (metric === 'pressure') {
-        label = 'Surface Pressure';
-        unit = ' hPa';
-        dataPoints = details.hourlyPressure;
-        color = '#10b981';
-      }
-
-      graphTitle.textContent = `📈 24-Hour ${label} Trend ${unit ? `(${unit.trim()})` : ''}`;
-
-      if (activeCamChart) {
-        activeCamChart.destroy();
-      }
-
-      const ctx = canvas.getContext('2d');
-      
-      const gradient = ctx.createLinearGradient(0, 0, 0, 180);
-      gradient.addColorStop(0, color.replace('#a855f7', 'rgba(168, 85, 247, 0.35)').replace('#38bdf8', 'rgba(56, 189, 248, 0.35)').replace('#06b6d4', 'rgba(6, 182, 212, 0.35)').replace('#60a5fa', 'rgba(96, 165, 250, 0.45)').replace('#f59e0b', 'rgba(245, 158, 11, 0.35)').replace('#10b981', 'rgba(16, 185, 129, 0.35)'));
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-      const datasetConfig = {
-        label: `${label} (${unit.trim()})`,
-        data: dataPoints,
-        borderColor: color,
-        borderWidth: chartType === 'bar' ? 1 : 2,
-        backgroundColor: chartType === 'bar' ? 'rgba(96, 165, 250, 0.6)' : gradient,
-        borderRadius: chartType === 'bar' ? 4 : 0,
-        fill: chartType !== 'bar',
-        tension: 0.35,
-        pointBackgroundColor: color,
-        pointRadius: chartType === 'bar' ? 0 : 2.5,
-        pointHoverRadius: 5
-      };
-
-      activeCamChart = new Chart(ctx, {
-        type: chartType,
-        data: {
-          labels: details.hourlyTime,
-          datasets: [datasetConfig]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#1e293b',
-              titleColor: '#f8fafc',
-              bodyColor: '#38bdf8',
-              borderColor: '#334155',
-              borderWidth: 1,
-              callbacks: {
-                label: (context) => {
-                  if (metric === 'condition') {
-                    const idx = context.dataIndex;
-                    const wCode = details.hourlyWeatherCode ? details.hourlyWeatherCode[idx] : 0;
-                    const condText = describeWeather(wCode).condition;
-                    return `${condText} (Cloud Cover: ${context.raw}%)`;
-                  }
-                  return `${context.dataset.label}: ${context.raw}${unit}`;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: { color: '#64748b', font: { size: 10 }, maxTicksLimit: 8 }
-            },
-            y: {
-              grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: { color: '#64748b', font: { size: 10 } }
-            }
-          }
-        }
-      });
-    }
-
-    function closeCamWeatherModal() {
-      const modal = document.getElementById('cam-weather-modal');
-      if (modal) modal.style.display = 'none';
-      if (activeCamChart) {
-        activeCamChart.destroy();
-        activeCamChart = null;
-      }
-    }
-
-    function openLegalModal() {
-      document.getElementById('legal-modal').style.display = 'flex';
-    }
-
-    function closeLegalModal() {
-      document.getElementById('legal-modal').style.display = 'none';
-    }
-
     if ('IntersectionObserver' in window) {
       const cardObserver = new IntersectionObserver(entries => entries.forEach(e => {
         const id = Number(e.target.id.replace('card-', ''));
@@ -1715,6 +1508,7 @@
     }
     document.addEventListener('visibilitychange', () => cameras.forEach(c => syncPlayback(c.id)));
 
+    // Timelapse Modal Logic
     let timelapseIdleTimer = null;
 
     function openTimelapse(videoId, titleText, ytLink) {
@@ -1728,7 +1522,7 @@
 
       if (videoId && videoId !== "null" && videoId !== "") {
         titleLink.href = ytLink || `https://youtu.be/${videoId}`;
-        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1`;
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1`;
         iframe.style.display = 'block';
         comingSoon.classList.remove('show');
         controls.style.display = 'flex';
@@ -1793,9 +1587,10 @@
       try { return localStorage.getItem(key); } catch (e) { return null; }
     }
     function storageSet(key, value) {
-      try { localStorage.setItem(key, value); } catch (e) { }
+      try { localStorage.setItem(key, value); } catch (e) { /* ignore */ }
     }
 
+    // Theme Switcher Logic
     function initTheme() {
       const savedTheme = storageGet('theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -1812,6 +1607,7 @@
 
     initTheme();
 
+    // Live Clock Ticker for Fuvahmulah
     function updateClock() {
       const now = new Date();
       const timeString = now.toLocaleTimeString('en-US', { timeZone: 'Indian/Maldives', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
@@ -1820,9 +1616,11 @@
     setInterval(updateClock, 1000);
     updateClock();
 
+    // Toggle Weather Popup Card
     function toggleWeatherPopup(event) {
       event.stopPropagation();
-      document.getElementById('weatherPopup').classList.toggle('open');
+      const popup = document.getElementById('weatherPopup');
+      popup.classList.toggle('open');
     }
 
     document.addEventListener('click', () => {
@@ -1832,9 +1630,6 @@
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       document.getElementById('weatherPopup').classList.remove('open');
-      closeCamWeatherModal();
-      closeLegalModal();
-      closeMapModal();
       if (activeFsCam !== null) closeCustomFullscreen();
       if (document.getElementById('timelapse-modal').style.display === 'flex') closeTimelapse();
     });
@@ -1852,6 +1647,7 @@
       return { icon: '🌤️', condition: 'Fair' };
     }
 
+    // Fetch Weather Data from Open-Meteo
     async function fetchWeather() {
       try {
         const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-0.3&longitude=73.42&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto');
@@ -2062,14 +1858,16 @@
         userPaused[targetIndex] = true; pausedAt[targetIndex] = Date.now();
         if (player) player.pauseVideo();
         if (fsPlayer) fsPlayer.pauseVideo();
-        if (btn) btn.innerHTML = PLAY_BTN_HTML;
-        if (fsBtn) fsBtn.innerHTML = PLAY_BTN_HTML;
+        const pauseHTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play`;
+        if (btn) btn.innerHTML = pauseHTML;
+        if (fsBtn) fsBtn.innerHTML = pauseHTML;
       } else {
         userPaused[targetIndex] = false; autoPaused[targetIndex] = false;
         if (player) resumeLive(targetIndex, player);
         if (fsPlayer) fsPlayer.playVideo();
-        if (btn) btn.innerHTML = PAUSE_BTN_HTML;
-        if (fsBtn) fsBtn.innerHTML = PAUSE_BTN_HTML;
+        const playHTML = `<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause`;
+        if (btn) btn.innerHTML = playHTML;
+        if (fsBtn) fsBtn.innerHTML = playHTML;
       }
     }
 
@@ -2130,7 +1928,6 @@
 
       cameras.forEach(cam => {
         players[cam.id] = new YT.Player(`player-${cam.id}`, {
-          host: 'https://www.youtube-nocookie.com',
           height: '100%',
           width: '100%',
           videoId: cam.videoId,
@@ -2143,7 +1940,6 @@
       });
 
       players['fs'] = new YT.Player('player-fs', {
-        host: 'https://www.youtube-nocookie.com',
         height: '100%',
         width: '100%',
         videoId: cameras[0].videoId,
@@ -2151,6 +1947,7 @@
       });
     }
 
+    // --- Onboarding Tour Logic ---
     let currentTourStep = 0;
     const tourSteps = [
       {
@@ -2167,7 +1964,7 @@
         title: () => layoutMode() === 'phone' ? "Theme & Guide" : "Layout & Theme Controls",
         body: () => {
           const mode = layoutMode();
-          if (mode === 'phone') return "Toggle Light and Dark mode, or reopen this Guide anytime. Tip: turn your phone sideways to see two cameras side by side.";
+          if (mode === 'phone') return "Toggle Light and Dark mode, or reopen this Guide anytime. Tip: turn your phone sideways to see two cameras side by side. A layout button will appear.";
           if (mode === 'compact') return "Switch between 1 or 2 columns, toggle Light and Dark mode, or reopen this Guide whenever you like.";
           return "Switch between 1, 2 or 3-column grid layouts, toggle Light and Dark mode, or reopen this Guide whenever you like.";
         },
@@ -2177,11 +1974,6 @@
         title: "View Location on Map",
         body: "Click on any camera's name to instantly view its exact location on Google Maps.",
         target: "tour-step-maplink"
-      },
-      {
-        title: "Camera Weather & Interactive Graphs",
-        body: "Click the live weather badge on any camera card to view real-time rain rates, last update times, and interactive 24-hour trend graphs for temperature, humidity, wind, pressure, and conditions.",
-        target: "rain-badge-1"
       },
       {
         title: "Time-lapse, Focused View & Fullscreen",
@@ -2256,13 +2048,11 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      checkLocalRainForCameras();
-      setInterval(checkLocalRainForCameras, 30000);
-
       if (!storageGet('tourCompleted')) {
         setTimeout(startTour, 800);
       }
     });
   </script>
+
 </body>
 </html>
